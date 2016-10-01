@@ -7,8 +7,8 @@ export class Home {
     this.mtg = mtg;
     this.cards = mtg.cards;
     this.config = {
-      set: ['eve', 'dgm'],
-      pageSize: 100,
+      set: 'kld',
+      pageSize: 10,
       page: 1
     };
   }

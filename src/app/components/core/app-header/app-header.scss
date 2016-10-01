@@ -1,0 +1,59 @@
+$highlight:  #E5EEC1;
+$primary:    #A2D4AB;
+$secondary:  #3EACA8;
+$tertiary:   #547A82;
+$background: #5A5050;
+
+#banner {
+  flex: 1 0 auto;
+  width: 100%;
+  color: $background;
+  background-color: rgb(246, 248, 248);
+  border-bottom: 1px solid rgb(224, 229, 230);
+  padding: 0.8rem 0;
+  text-align: right;
+
+  #nav {
+    max-width: 1240px;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    font-size: 1.8rem;
+    line-height: 1.5rem;
+
+    .logo {
+      flex: 0 0 auto;
+      color: $background;
+      font-family: Beleren;
+      font-size: 2.5rem;
+      text-decoration: none;
+
+      i {
+        padding-bottom: 0.75rem;
+      }
+    }
+
+    nav {
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      a {
+        color: $background;
+        text-decoration: none;
+        &:hover {
+          color: $tertiary;
+          text-decoration: none;
+        }
+      }
+
+      a, .nav-item {
+        flex: 0 0 auto;
+        display: inline-block;
+        margin-left: 1.5rem;
+
+      }
+    }
+  }
+}

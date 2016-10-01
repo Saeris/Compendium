@@ -1,0 +1,33 @@
+/* TODO: Get colors from the global variables */
+.rating {
+  unicode-bidi: bidi-override;
+  font-size: 2rem;
+  flex: 1 0 auto;
+
+  .star{
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    padding-right: 0.25rem;
+    color: #e3cf7a;
+    &.full {
+      &:before {
+        /* fa-star */
+        content: "\f005";
+      }
+    }
+    &.half {
+      &:before {
+        /* fa-star-half-o */
+        content: "\f123";
+      }
+    }
+    &.empty {
+      &:before {
+        /* fa-star-o */
+        content: "\f006";
+      }
+    }
+  }
+}

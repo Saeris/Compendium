@@ -1,0 +1,46 @@
+<template>
+  <require from="./normal.scss"></require>
+
+  <div class="layout-normal">
+    <div class="title">
+      <span if.bind="doublefaced" class="face-symbol"></span>
+      <span class="name">${card.name}</span>
+      <span class="cost" alt="Converted Mana Cost: ${card.cmc}">${card.manaCost}</span>
+    </div>
+
+    <div class="illustration">
+      <img src.bind="card.imageUrl" alt="${card.name}" />
+    </div>
+
+    <div class="type-line">
+      <span if.bind="supertype" class="supertype">${card.superType}</span>
+      <span repeat.for="type of card.types" class="type">${type}</span>
+      <span if.bind="subtype"> - </span>
+      <span repeat.for="subtype of card.subtypes" class="subtype">${subtype}</span>
+      <span class="expansion-symbol ${card.rarity}">${set.symbol}</span>
+    </div>
+
+    <div class="text-box">
+      <span if.bind="watermark" class="watermark"></span>
+      <ul>
+        <li repeat.for="ability of card.abilities"></li>
+        <li if.bind="flavor" class="flavor-text">${card.flavor}</li>
+      </ul>
+    </div>
+
+    <div class="information-line">
+      <ul>
+        <li>${card.number}/${set.size} ${card.rarity.charAt(0)}</li>
+        <li>${card.set} ${card.languageCode} ${card.artist}</li>
+      </ul>
+      <ul>
+        <li>
+          <span if.bind="creature">${card.power} / ${card.toughness}</span>
+          <span if.bind="planeswalker">${card.loyalty}</span>
+          <span if.bind="story">${card.storyLink}</span>
+        </li>
+        <li>${card.copyright}</li>
+      </ul>
+    </div>
+  </div>
+</template>

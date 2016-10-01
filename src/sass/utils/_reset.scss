@@ -1,0 +1,41 @@
+/* Reset */
+* {
+    padding                 : 0em;
+    margin                  : 0em;
+}
+
+p {
+  margin: 0px;
+}
+
+a {
+    text-decoration           : none;
+    border                    : none;
+    &:hover {
+      text-decoration         : underline;
+    }
+}
+
+ul {
+    padding                   : 0;
+    margin                    : 0;
+    list-style: none;
+
+    li{
+      padding                 : 0;
+      margin                  : 0;
+    }
+
+    ul {
+      padding                 : 0px;
+      padding-left            : 15px;
+   }
+}
+
+img {
+    border                  : none;
+}
+
+.simplebar .simplebar-scroll-content {
+  position: relative;
+}

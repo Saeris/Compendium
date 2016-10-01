@@ -1,0 +1,128 @@
+// Global settings
+// --------------------------------------------
+
+// Font families
+$open-sans:            'Open Sans';
+$open-sans-sans-serif: 'Open Sans', sans-serif;
+$merriweather-serif:   'Merriweather', serif;
+$menlo:                 Menlo;
+
+$font-family-base: $open-sans-sans-serif;
+
+$font-families: (
+   // base
+   'headings':          $open-sans-sans-serif,
+   // components
+   'code':              $menlo,
+   'caption':           $merriweather-serif,
+   'image-gallery':     $open-sans,
+   'post-header-cover': $merriweather-serif,
+   'post-meta':         $open-sans-sans-serif,
+   'post-content':      $merriweather-serif,
+   'post-excerpt-link': $open-sans-sans-serif,
+   'highlight':         $menlo,
+   // layout
+   'sidebar':           $open-sans-sans-serif
+);
+
+// equal to 15px
+$font-size-base:      1.6rem;
+$font-color-base:     #5d686f;
+$line-height-base:    1.9em;
+$letter-spacing-base: 0.01em;
+
+// Reduction of font size base on small screen and down
+$font-size-base-sm-screen-reduction-factor: 0.1rem;
+
+// Font size : (X.Xrem = XXpx, 1.0rem = 10px)
+$font-size: (
+    'xxlarge': 2rem,
+    'xlarge': 1.8rem,
+    'large':  1.7rem,
+    'base':   $font-size-base,
+    'medium': 1.5rem,
+    'small':  1.3rem,
+    'xsmall': 1rem
+);
+
+// Colors
+$colors: (
+    'success': #4dc657,
+    'danger':  #f5311d,
+    'primary': #349ef3,
+    'purple':  #cf6ae0,
+    'base':    $font-color-base,
+    'warning':  #f5aa0a,
+    'light':   #9eabb3,
+     // use for tag `a`
+    'link':    #349ef3
+);
+
+// Z-indexes
+// `l-` prefix for layout
+// `c-` prefix for components
+$z-indexes: (
+    // position the cover below the whole blog
+    'l-cover':             -1,
+    'l-main':              10,
+    'c-post-header-cover': 15,
+    'l-header':            20,
+    'l-sidebar':           20,
+    'l-about':             30,
+    'c-mask':              30,
+    'c-post-bottom-bar':   40,
+    'c-share-options-bar': 50,
+    'c-tooltip':           1000,
+    'c-overlay':           1009,
+    'c-modal':             1010
+);
+
+// Media Query Ranges
+// If you want to change ranges screen size, you can do it easily by changing only `$screen-min` values
+$screen-min: (
+    'xs-min': 320px,
+    'sm-min': 480px,
+     // If you change value of `md-min`,
+     // you have to change value of `mediumScreenWidth` too in `source/_js/sidebar.js`
+    'md-min': 768px,
+    'lg-min': 1024px,
+    'xlg-min': 1280px
+);
+$screen-max: (
+    'xs-max': map-get($screen-min, sm-min) - 1,
+    'sm-max': map-get($screen-min, md-min) - 1,
+    'md-max': map-get($screen-min, lg-min) - 1,
+    'lg-max': map-get($screen-min, xlg-min) - 1
+);
+// Merged screen-* Maps
+$screen: map-merge($screen-min, $screen-max);
+// Shortcuts for medias
+$xsmall-and-down: "only screen and (max-width : #{map-get($screen, xs-max)})" !default;
+$small-and-down:  "only screen and (max-width : #{map-get($screen, sm-max)})" !default;
+$small-only:      "only screen and (min-width : #{map-get($screen, sm-min)}) and (max-width : #{map-get($screen, sm-max)})" !default;
+$small-and-up:    "only screen and (min-width : #{map-get($screen, sm-min)})" !default;
+$medium-and-down: "only screen and (max-width : #{map-get($screen, md-max)})" !default;
+$medium-only:     "only screen and (min-width : #{map-get($screen, md-min)}) and (max-width : #{map-get($screen, md-max)})" !default;
+$medium-and-up:   "only screen and (min-width : #{map-get($screen, md-min)})" !default;
+$large-and-down:  "only screen and (max-width : #{map-get($screen, lg-max)})" !default;
+$large-only:      "only screen and (min-width : #{map-get($screen, lg-min)}) and (max-width : #{map-get($screen, lg-max)})" !default;
+$large-and-up:    "only screen and (min-width : #{map-get($screen, lg-min)})" !default;
+$xlarge-and-up:   "only screen and (min-width : #{map-get($screen, xlg-min)})" !default;
+
+// Base settings
+// Files are located in `base` folder
+// --------------------------------------------
+
+// Headings font-size : (X.Xrem = XXpx, 1.0rem = 10px)
+$headings-font-size: (
+    'h1': 2.8rem,
+    'h2': 2.4rem,
+    'h3': 2.0rem,
+    'h4': 1.8rem,
+    'h5': 1.7rem,
+    'h6': 1.6rem
+);
+// Reduction of headings font size on small screen and down
+$headings-font-size-sm-screen-reduction-factor: 0.2rem;
+// Reduction of headings font size on medium screen only
+$headings-font-size-md-screen-reduction-factor: 0.15rem;

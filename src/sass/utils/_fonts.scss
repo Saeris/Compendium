@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'Open Sans';
+    font-style:  normal;
+    font-weight: 400;
+    src:         local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/opensans/v10/cJZKeOuBrn4kERxqtaUH3SZ2oysoEQEeKwjgmXLRnTc.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style:  normal;
+    font-weight: 700;
+    src:         local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v10/k3k702ZOKiLJc3WVjuplzJS3E-kSBmtLoNJPDtbj2Pk.ttf) format('truetype');
+}
+
+@font-face {
+		font-family: "Beleren Bold";
+		src:url("/fonts/BELEREN-BOLD.eot");
+		src:url("/fonts/BELEREN-BOLD.eot?#iefix") format("embedded-opentype"),
+        url("/fonts/BELEREN-BOLD.ttf") format("ttf"),
+			  url("/fonts/BELEREN-BOLD.svg?Beleren-Bold") format("svg");
+}

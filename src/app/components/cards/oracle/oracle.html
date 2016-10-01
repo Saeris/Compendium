@@ -1,0 +1,73 @@
+<template>
+  <require from="./oracle.scss"></require>
+
+  <div class="layout-oracle">
+    <div class="preview">
+      <h2>${card.name}</h2>
+      <img src.bind="card.imageUrl" alt="${card.name}" />
+    </div>
+
+    <div class="card-info">
+      <div ref="tab_nav" class="tab-nav">
+        <button value="basic" class="selected">Basic</button>
+        <button if.bind="card.legalities" value="details">Details</button>
+        <button if.bind="card.rulings" value="rules">Rules</button>
+        <button if.bind="card.foreignNames" value="language">Language</button>
+      </div>
+
+      <div ref="tabs" class="tabs">
+        <div ref="basic" class="tab basic active">
+          <h3>Card Information:</h3>
+          <ul>
+            <li><span>Card Name:</span><p>${card.name}</p></li>
+            <li if.bind="card.manaCost"><span>Mana Cost:</span><p><i repeat.for="mana of card.manaSymbols" class="ms ms-${mana} ${card.isSplitMana(mana) ? 'ms-split' : ''} ms-cost ms-shadow"></i></p></li>
+            <li if.bind="card.cmc"><span class="cmc">CMC:</span><p>${card.cmc}</p></li>
+            <li><span>Types:</span><p>${card.type}</p></li>
+            <li if.bind="card.text"><span>Card Text:</span><p>${card.text}</p></li>
+            <li if.bind="card.flavor"><span>Flavor Text:</span><p class="flavor">${card.flavor}</p></li>
+            <li if.bind="card.types[0] == 'Creature'"><span>P/T:</span><p>${card.power} / ${card.toughness}</p></li>
+            <li if.bind="card.types[0] == 'Planeswalker'"><span>Loyalty:</span><p>${card.loyalty}</p></li>
+            <li><span>Expansion:</span><p><i class="ss ss-${card.set.toLowerCase()} ss-${card.rarity.toLowerCase()} ss-grad ss-2x ss-fw"></i> ${card.setName}</p></li>
+            <li><span>Rarity:</span><p>${card.rarity}</p></li>
+            <li><span>Card Number:</span><p>${card.number}</p></li>
+            <li><span>Artist:</span><p>${card.artist}</p></li>
+          </ul>
+        </div>
+
+        <div ref="details" class="tab details simplebar">
+          <h3>Printings:</h3>
+          <ul class="printings">
+            <li repeat.for="printing of card.printings"><i class="ss ss-${printing.toLowerCase()} ss-3x ss-fw" title="${card.setName}"></i></li>
+          </ul>
+          <h3>Legalities:</h3>
+          <ul if.bind="card.legalities">
+            <li repeat.for="legality of card.legalities">
+              <span>${legality.format}:</span>
+              <p>${legality.legality}</p>
+            </li>
+          </ul>
+        </div>
+
+        <div if.bind="card.rulings" ref="rules" class="tab rules simplebar">
+          <h3>Rulings:</h3>
+          <ul>
+            <li repeat.for="rule of card.rulings">
+              <span>${rule.date}:</span>
+              <p>${rule.text}</p>
+            </li>
+          </ul>
+        </div>
+
+        <div if.bind="card.foreignNames" ref="language" class="tab language">
+          <h3>Foreign Names:</h3>
+          <ul>
+            <li repeat.for="foreignName of card.foreignNames">
+              <span>${foreignName.language}:</span>
+              <p>${foreignName.name}</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

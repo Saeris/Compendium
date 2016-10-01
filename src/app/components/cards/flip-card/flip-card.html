@@ -1,0 +1,14 @@
+<template>
+  <require from="./flip-card.scss"></require>
+
+  <div ref="flipCard" class="flip-card">
+    <div class="card-container">
+      <figure class="front">
+        <button if.bind="activated" type="button" click.delegate="flip()" title="See Product Details"><i class="fa fa-share"></i></button>
+      </figure>
+      <figure class="back">
+        <button if.bind="activated" type="button" click.delegate="flip()" title="Return to Basic Info"><i class="fa fa-reply"></i></button>
+      </figure>
+    </div>
+  </div>
+</template>

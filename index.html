@@ -4,6 +4,11 @@
     <title><%- webpackConfig.metadata.title %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name=”description” content=”A Magic the Gathering collection management and deck building application.”>
+    <meta property="og:title" content="Compendium" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://www.mtgcompendium.com" />
+    <meta property="og:image" content="http://www.mtgcompendium.com/src/img/compendium_logo.jpg" />
+    <meta property="og:image:secure_url" content="https://www.mtgcompendium.com/src/img/compendium_logo.jpg" />
   </head>
   <body aurelia-app="main">
     <% if (webpackConfig.metadata.ENV === 'development') { %>

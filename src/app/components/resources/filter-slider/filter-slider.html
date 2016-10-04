@@ -1,0 +1,18 @@
+<template>
+  <require from="filter-slider.scss"></require>
+
+  <fieldset class="filter-slider">
+    <legend>${config.name}</legend>
+
+    <div class="slider" ref="slider">
+      <span class="meter"></span>
+      <button class="handle">${config.name} slider ${}</button>
+      <button class="handle">${config.name} slider </button>
+      <div class="ticks">
+        <button repeat.for="tick of config.ticks" data-index="0" class="tick">
+          <label>${tick}</label>
+        </button>
+      </div>
+    </div>
+  </fieldset>
+</template>

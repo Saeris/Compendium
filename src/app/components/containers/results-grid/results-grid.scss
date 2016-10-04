@@ -1,13 +1,11 @@
 .results-grid {
-  width: 95%;
-  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 1.5rem;
 
   button {
     flex: 0 0 auto;
-    align-self: center;
     background-color: transparent;
     background-image: none;
     border-radius: 0.25rem;
@@ -30,6 +28,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    width: 95%;
 
     /* Tablet Portrait */
     @media only screen

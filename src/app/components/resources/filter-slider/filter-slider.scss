@@ -1,0 +1,61 @@
+.filter-slider {
+  flex: 1 0 auto;
+  margin-left: 5rem;
+
+  legend {
+    width: 100%;
+    color: #e4edfd;
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 2.3rem;
+  }
+
+  .slider {
+    flex: 1 1 auto;
+    display: flex;
+    height: 0.8rem;
+
+    .meter {
+      background: #ff597e;
+      border-radius: 0.4rem;
+    }
+
+    .handle {
+      width: 2rem;
+      height: 2rem;
+      padding: 0;
+      margin-top: -0.6rem;
+      margin-left: -1rem;
+      background: #e4edfd;
+      border: 0;
+      border-radius: 50%;
+      box-shadow: 0 0 0 0.5rem #fff inset;
+      overflow: hidden;
+      line-height: 10rem;
+      cursor: pointer;
+    }
+
+    .ticks {
+      flex: 1 1 auto;
+      display: flex;
+      background: #104da1;
+      border-radius: 0.4rem;
+
+      .tick {
+        flex: 1 1 auto;
+        color: #9dbaf2;
+        border-right: 0.2rem solid #3260c7;
+        cursor: pointer;
+
+        label {
+          display: block;
+          text-align: center;
+          font-size: 1.4rem;
+          line-height: 1.6rem;
+          padding-top: 1.4rem;
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+}

@@ -27,7 +27,7 @@
       max-width: 223px;
       margin-left: auto;
       margin-right: auto;
-      border-radius: 1rem;
+      border-radius: 1.4rem;
     }
   }
   .card-info {
@@ -160,6 +160,7 @@
         flex: 0 1 auto;
         display: flex;
         flex-direction: column;
+        width: 100%;
         padding: 1rem;
 
         li {

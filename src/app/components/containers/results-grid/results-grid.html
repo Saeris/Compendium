@@ -1,7 +1,7 @@
 <template>
   <require from="./results-grid.scss"></require>
 
-  <div class="results-grid">
+  <section class="results-grid">
     <ul>
       <li repeat.for="card of cards">
         <card config.bind="{layout: 'oracle', card: card}"></card>
@@ -9,6 +9,6 @@
       <li class="placeholder" repeat.for="card of cards"></li>
       <li if.bind="loading" class="loading"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></li>
     </ul>
-    <button type="button" click.delegate="loadMore()">Load More</button>
-  </div>
+    <button click.delegate="loadMore()">Load More</button>
+  </section>
 </template>

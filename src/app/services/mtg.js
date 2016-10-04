@@ -5,17 +5,49 @@ import Card from '../models/card';
 import Set from '../models/set';
 
 export default class MtG {
-  constructor(){
-    this.cards - [];
+  constructor() {
+    this.BaseUrl = 'https://api.magicthegathering.io/v1';
     this.http = new HttpClient().configure(config => {
       config
-        .withBaseUrl('https://api.magicthegathering.io/v1')
+        .withBaseUrl(this.BaseUrl)
         .withDefaults({
           headers: {
             'Accept': 'application/json',
             'Access-Control-Allow-Origin': '*'
           }
         });
+    });
+
+    // Cache of fetch results
+    // TODO: Set up history to prevent repeat requests to the API
+    this.results = {
+      history: {},
+      cards: [],
+      sets: {},
+      types: [],
+      supertypes: [],
+      subtypes: []
+    };
+
+    // Run each of these once at startup to create a local cache
+    let sets = this.getSets();
+    sets.then(results => {
+      this.results.sets = results;
+    });
+
+    let types = this.getTypes('types');
+    types.then(results => {
+      this.results.types = results;
+    });
+
+    let supertypes = this.getTypes('supertypes');
+    supertypes.then(results => {
+      this.results.supertypes = results;
+    });
+
+    let subtypes = this.getTypes('subtypes');
+    subtypes.then(results => {
+      this.results.subtypes = results;
     });
   }
   /* TODO: Implement error handling for all requests.
@@ -108,149 +140,189 @@ export default class MtG {
    *                                than 1000 is requested, 100 will be returned.
    */
 
-  async getCards(config){
-    function addModifiers(parameter, data) {
-      if ((typeof data === "object") && (data !== null)) {
-        if (data.modifier !== '') {
-          return `${parameter}=${data.modifier}${data.value}`;
-        } else {
-          return `${parameter}=${data.value}`;
-        }
-      } else {
-        return `${parameter}=${data}`;
-      }
-    }
-
-    function toField(parameter, data) {
-      return ((data !== '') && (typeof data !== 'undefined')) ? `${parameter}=${data}` : '' || '';
-    }
-
-    function toFieldWithMod (parameter, data) {
-      return ((data !== '') && (typeof data !== 'undefined')) ? addModifiers(parameter, data) : '';
-    }
-
-    function toList(parameter, data) {
-      if (Array.isArray(data)) {
-        return `${parameter}=${data.join()}`;
-      } else if ((data !== '') && (typeof data !== 'undefined')) {
-        return `${parameter}=${data}`;
-      } else {
-        return '';
-      }
-    }
-
-    function toLogicalList(parameter, data) {
-      if ((typeof data === "object") && (data !== null)) {
-        if (Array.isArray(data.value)) {
-          let logic = data.logic ? ',' : '|';
-          return `${parameter}=${data.value.join(logic)}`;
-        } else {
-          return `${parameter}=${data.value}`;
-        }
-      } else {
-        return '';
-      }
-    }
-
+  async getCards(config = {}) {
     let parameters = {
-      name:         toList('name', config.name),
-      layout:       toList('layout', config.layout),
-      cmc:          toFieldWithMod ('cmc', config.cmc),
-      colors:       toLogicalList('colors', config.colors),
-      type:         toList('type', config.type),
-      supertypes:   toLogicalList('supertypes', config.supertypes),
-      types:        toLogicalList('types', config.types),
-      subtypes:     toLogicalList('subtypes', config.subtypes),
-      rarity:       toList('rarity', config.rarity),
-      set:          toList('set', config.set),
-      setName:      toList('setName', config.setName),
-      text:         toList('text', config.text),
-      flavor:       toList('flavor', config.flavor),
-      artist:       toList('artist', config.artist),
-      number:       toList('number', config.number),
-      power:        toFieldWithMod ('power', config.power),
-      toughness:    toFieldWithMod ('toughness', config.toughness),
-      loyalty:      toFieldWithMod ('loyalty', config.loyalty),
-      foreignNames: toField('foreignNames', config.foreignNames),
-      language:     toField('language', config.language),
-      gameFormat:   toField('gameFormat', config.gameFormat),
-      legality:     toField('legality', config.legality),
-      page:         toField('page', config.page),
-      pageSize:     toField('pageSize', config.pageSize)
+      name:         this.toList('name', config.name),
+      layout:       this.toList('layout', config.layout),
+      cmc:          this.toFieldWithMod ('cmc', config.cmc),
+      colors:       this.toLogicalList('colors', config.colors),
+      type:         this.toList('type', config.type),
+      supertypes:   this.toLogicalList('supertypes', config.supertypes),
+      types:        this.toLogicalList('types', config.types),
+      subtypes:     this.toLogicalList('subtypes', config.subtypes),
+      rarity:       this.toList('rarity', config.rarity),
+      set:          this.toList('set', config.set),
+      setName:      this.toList('setName', config.setName),
+      text:         this.toList('text', config.text),
+      flavor:       this.toList('flavor', config.flavor),
+      artist:       this.toList('artist', config.artist),
+      number:       this.toList('number', config.number),
+      power:        this.toFieldWithMod ('power', config.power),
+      toughness:    this.toFieldWithMod ('toughness', config.toughness),
+      loyalty:      this.toFieldWithMod ('loyalty', config.loyalty),
+      foreignNames: this.toField('foreignNames', config.foreignNames),
+      language:     this.toField('language', config.language),
+      gameFormat:   this.toField('gameFormat', config.gameFormat),
+      legality:     this.toField('legality', config.legality),
+      page:         this.toField('page', config.page),
+      pageSize:     this.toField('pageSize', config.pageSize)
     };
     let query = values(parameters).filter(string =>{return string !== ''}).join('&');
-    let data = await this.http.fetch(`/cards?${encodeURI(query)}`).then(response => {
-      let data = {
-        headers: response.headers.entries(),
-        body: response.json()
-      };
-      return data;
-    });
+    let request = `/cards?${encodeURI(query)}`;
+    if (this.results.history.hasOwnProperty(request)) {
+      console.log(`Returning cached request: ${request}`);
+      return unionBy(this.results.cards, this.results.history[request], 'multiverseid');  
+    }
+    let data = await this.http.fetch(request).then(response => this.parseResponse(response));
     let results = [];
-    let cards = await data.body.then(result => {
+    let response = await data.body.then(result => {
       return result.cards
     });
-    cards.forEach(card => {
+    response.forEach(card => {
       results.push(new Card(card));
     });
-    return this.cards = unionBy(this.cards, results, 'multiverseid');
+    // TODO: Refactor code to return header information for request/response history
+    this.results.history[request] = response;
+    this.results.cards = unionBy(this.results.cards, results, 'multiverseid');
+    return this.results.cards;
   }
 
-  async getCard(id){
-    let data = await this.http.fetch(`/cards/${id}`).then(response => response.json());
-    return new Card(data.card);
-  }
-
-  async getSets(sets, config){
-    function toList(parameter, data) {
-      if (Array.isArray(data)) {
-        return `${parameter}=${data.join('|')}`;
-      } else if ((data !== '') && (typeof data !== 'undefined')) {
-        return `${parameter}=${data}`;
-      } else {
-        return '';
-      }
-    }
-
-    let parameters = {
-      name:   toList('name', config.name),
-      block:  toList('block', config.block)
-    };
-    let query = values(parameters).filter(string =>{return string !== ''}).join('&');
-    let data = await this.http.fetch(`/sets?${encodeURI(query)}`).then(response => response.json());
-    let results = [];
-    data.sets.forEach(set => {
-      results.push(new Set(set));
+  // TODO: Create tests for this method
+  async getCard(id) {
+    let data = await this.http.fetch(`/cards/${id}`).then(response => this.parseResponse(response));
+    let card = await data.body.then(result => {
+      return result.cards;
     });
-    return unionBy(sets, results, 'code');
+    return new Card(card);
   }
 
-  async getBooster(set){
-    let data = await this.http.fetch(`/sets/${set}/booster`).then(response => response.json());
+  // TODO: Create tests for this method
+  async getBooster(set) {
+    let data = await this.http.fetch(`/sets/${set}/booster`).then(response => this.parseResponse(response));
     let results = [];
-    data.cards.forEach(card => {
+    let response = await data.body.then(result => {
+      return result.cards
+    });
+    response.forEach(card => {
       results.push(new Card(card));
     });
     return results;
   }
 
-  async getSet(id){
-    let data = await this.http.fetch(`/sets/${id}`).then(response => response.json());
-    return new Set(data.set);
+  // TODO: Add handler to ensure all sets are being retrieved (ie: total-count > page-size)
+  async getSets(config = {}) {
+    let parameters = {
+      name:   this.toSetList('name', config.name),
+      block:  this.toList('block', config.block)
+    };
+    let query = values(parameters).filter(string =>{return string !== ''}).join('&');
+    let data = await this.http.fetch(`/sets?${encodeURI(query)}`).then(response => this.parseResponse(response));
+    let results = [];
+    let response = await data.body.then(result => {
+      return result.sets
+    });
+    response.forEach(set => {
+      results.push(new Set(set));
+    });
+    let sets = {};
+    results.forEach(set => {
+      sets[set.code] = set;
+    });
+    this.results.sets = sets;
+    return sets;
   }
 
-  async getTypes(){
-    let data = await this.http.fetch(`/types`).then(response => response.json());
-    return data.types;
+  // TODO: Create tests for this method
+  async getSet(id) {
+    let data = await this.http.fetch(`/sets/${id}`).then(response => this.parseResponse(response));
+    let set = await data.body.then(result => {
+      return result.sets;
+    });
+    return new Set(set);
   }
 
-  async getSuperTypes(){
-    let data = await this.http.fetch(`/supertypes`).then(response => response.json());
-    return data.supertypes;
+  async getTypes(config = 'types') {
+    let data = await this.http.fetch(`/${config}`).then(response => this.parseResponse(response));
+    let types = await data.body.then(result => {
+      return result[config];
+    });
+    return types;
   }
 
-  async getSubTypes(){
-    let data = await this.http.fetch(`/subtypes`).then(response => response.json());
-    return data.subtypes;
+  parseResponse(response) {
+    let config = {
+      headers: {},
+      body: response.json()
+    }
+    for (let pair of response.headers.entries()) {
+      config.headers[pair[0]] = pair[1];
+    }
+    return new Response(config);
+  }
+
+  addModifiers(parameter, data) {
+    if ((typeof data === "object") && (data !== null)) {
+      if (data.modifier !== '') {
+        return `${parameter}=${data.modifier}${data.value}`;
+      } else {
+        return `${parameter}=${data.value}`;
+      }
+    } else {
+      return `${parameter}=${data}`;
+    }
+  }
+
+  toField(parameter, data) {
+    return ((data !== '') && (typeof data !== 'undefined')) ? `${parameter}=${data}` : '' || '';
+  }
+
+  toFieldWithMod (parameter, data) {
+    return ((data !== '') && (typeof data !== 'undefined')) ? this.addModifiers(parameter, data) : '';
+  }
+
+  toList(parameter, data) {
+    if (Array.isArray(data)) {
+      return `${parameter}=${data.join()}`;
+    } else if ((data !== '') && (typeof data !== 'undefined')) {
+      return `${parameter}=${data}`;
+    } else {
+      return '';
+    }
+  }
+
+  toSetList(parameter, data) {
+    if (Array.isArray(data)) {
+      return `${parameter}=${data.join('|')}`;
+    } else if ((data !== '') && (typeof data !== 'undefined')) {
+      return `${parameter}=${data}`;
+    } else {
+      return '';
+    }
+  }
+
+  toLogicalList(parameter, data) {
+    if ((typeof data === "object") && (data !== null)) {
+      if (Array.isArray(data.value)) {
+        let logic = data.logic ? ',' : '|';
+        return `${parameter}=${data.value.join(logic)}`;
+      } else {
+        return `${parameter}=${data.value}`;
+      }
+    } else {
+      return '';
+    }
+  }
+}
+
+/* Helper Classes */
+
+class Response {
+  constructor(config) {
+    this.body = config.body;
+    this.count = parseInt(config.headers.count, 10);
+    this.size = parseInt(config.headers['page-size'], 10);
+    this.limit = parseInt(config.headers['ratelimit-limit'], 10);
+    this.remaining = parseInt(config.headers['ratelimit-remaining'], 10);
+    this.total = parseInt(config.headers['total-count'], 10);
   }
 }

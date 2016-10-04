@@ -8,6 +8,7 @@ const easyWebpack = require('@easy-webpack/core');
 const generateConfig = easyWebpack.default;
 const get = easyWebpack.get;
 const path = require('path');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const ENV = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() || 'development';
 let config;
 

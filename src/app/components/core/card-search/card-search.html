@@ -1,0 +1,148 @@
+<template>
+  <require from="./card-search.scss"></require>
+
+  <section id="card-search">
+    <form role="search">
+      <section id="basic" ref="basic">
+        <fieldset id="names">
+          <input type="search"   id="search"         value.bind="filterText"      placeholder="Search...">
+          <input type="submit"   id="submit">
+          <input type="button"   id="show-advanced">
+        </fieldset>
+
+        <fieldset id="colors">
+          <input type="checkbox" id="white"          checked.bind="white"         title="White"/>
+          <input type="checkbox" id="blue"           checked.bind="blue"          title="Blue"/>
+          <input type="checkbox" id="black"          checked.bind="black"         title="Black"/>
+          <input type="checkbox" id="red"            checked.bind="red"           title="Red"/>
+          <input type="checkbox" id="green"          checked.bind="green"         title="Green"/>
+          <input type="checkbox" id="colorless"      checked.bind="colorless"     title="Colorless"/>
+          <input type="checkbox" id="generic"        checked.bind="generic"       title="Generic"/>
+          <input type="button"   class="clear">
+        </fieldset>
+
+        <fieldset id="types">
+          <input type="checkbox" id="artifact"       checked.bind="artifact"      title="Artifact"/>
+          <input type="checkbox" id="creature"       checked.bind="creature"      title="Creatures"/>
+          <input type="checkbox" id="enchantment"    checked.bind="enchantment"   title="Enchantment"/>
+          <input type="checkbox" id="planeswalker"   checked.bind="planeswalker"  title="Planeswalker"/>
+          <input type="checkbox" id="instant"        checked.bind="instant"       title="Instant"/>
+          <input type="checkbox" id="sorcery"        checked.bind="sorcery"       title="Sorcery"/>
+          <input type="checkbox" id="land"           checked.bind="land"          title="Land"/>
+          <input type="button"   class="clear">
+        </fieldset>
+
+        <fieldset id="costs">
+          <input type="checkbox" id="zeroOne"        checked.bind="zeroOne"       title="Converted Mana Cost"/><label for="zeroOne"  ><i class="ms ms-0 ms-cost"></i>-<i class="ms ms-1 ms-cost"></i></label>
+          <input type="checkbox" id="twoThree"       checked.bind="twoThree"      title="Converted Mana Cost"/><label for="twoThree" ><i class="ms ms-2 ms-cost"></i>-<i class="ms ms-3 ms-cost"></i></label>
+          <input type="checkbox" id="fourFive"       checked.bind="fourFive"      title="Converted Mana Cost"/><label for="fourFive" ><i class="ms ms-4 ms-cost"></i>-<i class="ms ms-5 ms-cost"></i></label>
+          <input type="checkbox" id="sixPlus"        checked.bind="sixPlus"       title="Converted Mana Cost"/><label for="sixPlus"  ><i class="ms ms-6 ms-cost"></i>+</label>
+          <input type="button"   class="clear">
+        </fieldset>
+
+        <fieldset id="rarities">
+          <input type="checkbox" id="common"         checked.bind="common"        title="Common"/>
+          <input type="checkbox" id="uncommon"       checked.bind="uncommon"      title="Uncommon"/>
+          <input type="checkbox" id="rare"           checked.bind="rare"          title="Rare"/>
+          <input type="checkbox" id="mythic"         checked.bind="mythic"        title="Mythic"/>
+          <input type="button"   class="clear">
+        </fieldset>
+
+        <fieldset id="sets">
+          <input type="text"     list="sets-list"    placeholder="Sets">
+          <datalist              id="sets-list">
+            <option              class="${set.code}" value="${set.name}"         repeat.for="set of sets">
+          </datalist>
+        </fieldset>
+
+        <fieldset id="formats">
+          <input type="formats"  list="formats-list" placeholder="Formats">
+          <datalist              id="sets-list">
+            <option              value="set"         repeat.for="set of sets">
+          </datalist>
+        </fieldset>
+      </section>
+
+      <section id="advanced" ref="advanced">
+        <fieldset id="categories">
+          <button class="selected" value="Classes"><i class=""></i><label>Classes</label></button>
+          <button class="selected" value="Costs"><i class=""></i><label>Costs</label></button>
+          <button class="selected" value="Types"><i class=""></i><label>Types</label></button>
+          <button class="selected" value="Rules"><i class=""></i><label>Rules</label></button>
+          <button class="selected" value="Stats"><i class=""></i><label>Stats</label></button>
+          <button class="selected" value="Groups"><i class=""></i><label>Groups</label></button>
+          <button class="selected" value="Flavor"><i class=""></i><label>Flavor</label></button>
+        </fieldset>
+
+        <fieldset name="Classes" class="tab">
+          included tags, excluded tags
+          name data-list (auto-complete)
+
+          included tags, excluded tags
+          category data-list (acceleration, removal, etc)
+
+          included tags, excluded tags
+          layout data-list
+        </fieldset>
+
+        <fieldset name="Costs" class="tab">
+          included tags
+          multicolored data-list (allies, enemies, shards, wedges)
+
+          colors check-list (linked to multicolored)
+          options (multi-only pure)
+
+          cmc range-list
+        </fieldset>
+
+        <fieldset name="Types" class="tab">
+          included tags, excluded tags
+          supertypes data-list
+
+          included tags, excluded tags
+          types data-list
+
+          included tags, excluded tags
+          subtypes data-list
+        </fieldset>
+
+        <fieldset name="Rules" class="tab">
+          text-search (fuzzy-matching?)
+
+          included tags, excluded tags
+          ability-type data-list (activated, triggered)
+
+          included tags, excluded tags
+          keywords data-list
+        </fieldset>
+
+        <fieldset name="Stats" class="tab">
+          power range-list
+
+          toughness range-list
+
+          loyalty range-list
+        </fieldset>
+
+        <fieldset name="Groups" class="tab">
+          included tags, excluded tags
+          sets data-list (linked)
+
+          included tags, excluded tags
+          blocks data-list
+
+          included tags, excluded tags
+          formats data-list
+          options (only-legal)
+        </fieldset>
+
+        <fieldset name="Flavor" class="tab">
+          text-search (fuzzy-matching?)
+
+          included tags
+          artist data-list (auto-complete)
+        </fieldset>
+      </section>
+    </form>
+  </section>
+</template>

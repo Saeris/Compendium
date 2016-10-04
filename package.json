@@ -61,6 +61,7 @@
     }
   },
   "dependencies": {
+    "@reactivex/rxjs": "^5.0.0-beta.12",
     "aurelia-bootstrapper-webpack": "^1.0.0-rc.1.0.0",
     "aurelia-event-aggregator": "^1.0.0-rc.1.0.0",
     "aurelia-fetch-client": "^1.0.0-rc.1.0.0",
@@ -116,6 +117,7 @@
     "babel-register": "^6.9.0",
     "concurrently": "^2.1.0",
     "cross-env": "^1.0.8",
+    "favicons-webpack-plugin": "0.0.7",
     "http-server": "^0.9.0",
     "jasmine-core": "^2.4.1",
     "karma": "^1.0.0",

@@ -2,7 +2,7 @@ import {customElement, containerless, bindable} from 'aurelia-framework';
 
 @customElement('filter-taglist')
 @containerless
-export class filterTaglistCustomElement {
+export class FilterTaglist {
   @bindable config;
   constructor() {
   }

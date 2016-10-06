@@ -4,7 +4,7 @@ import MtG from '../../../services/mtg';
 @customElement('results-grid')
 @containerless
 @inject(MtG)
-export class resultsGridCustomElement {
+export class ResultsGrid {
   @bindable cards;
   cards = [];
   page = 1;

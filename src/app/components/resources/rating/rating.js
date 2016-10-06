@@ -2,7 +2,7 @@ import {customElement, containerless, bindable} from 'aurelia-framework';
 
 @customElement('rating')
 @containerless
-export class ratingCustomElement {
+export class Rating {
   @bindable score;
   /*
    * When the view becomes attached to the page, use the Score bindable to set

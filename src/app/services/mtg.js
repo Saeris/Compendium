@@ -30,23 +30,19 @@ export default class MtG {
     };
 
     // Run each of these once at startup to create a local cache
-    let sets = this.getSets();
-    sets.then(results => {
+    this.getSets().then(results => {
       this.results.sets = results;
     });
 
-    let types = this.getTypes('types');
-    types.then(results => {
+    this.getTypes('types').then(results => {
       this.results.types = results;
     });
 
-    let supertypes = this.getTypes('supertypes');
-    supertypes.then(results => {
+    this.getTypes('supertypes').then(results => {
       this.results.supertypes = results;
     });
 
-    let subtypes = this.getTypes('subtypes');
-    subtypes.then(results => {
+    this.getTypes('subtypes').then(results => {
       this.results.subtypes = results;
     });
   }
@@ -171,7 +167,7 @@ export default class MtG {
     let request = `/cards?${encodeURI(query)}`;
     if (this.results.history.hasOwnProperty(request)) {
       console.log(`Returning cached request: ${request}`);
-      return unionBy(this.results.cards, this.results.history[request], 'multiverseid');  
+      return unionBy(this.results.cards, this.results.history[request], 'multiverseid');
     }
     let data = await this.http.fetch(request).then(response => this.parseResponse(response));
     let results = [];

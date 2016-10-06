@@ -2,7 +2,7 @@ import {customElement, containerless, bindable} from 'aurelia-framework';
 
 @customElement('filter-slider')
 @containerless
-export class filterSliderCustomElement {
+export class FilterSlider {
   @bindable config;
   constructor() {
   }

@@ -86,7 +86,7 @@
     "keyrune": "github:andrewgioia/Keyrune",
     "mana-font": "github:andrewgioia/Mana",
     "numeral": "^1.5.3",
-    "simplebar": "^1.1.9"
+    "perfect-scrollbar": "^0.6.12"
   },
   "devDependencies": {
     "@easy-webpack/config-aurelia": "^2.0.1",

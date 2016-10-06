@@ -16,7 +16,7 @@
       </div>
 
       <div ref="tabs" class="tabs">
-        <div ref="basic" class="tab basic simplebar active">
+        <scrollable ref="basic" class="tab basic active">
           <h3>Card Information:</h3>
           <ul>
             <li><span>Card Name:</span><p>${card.name}</p></li>
@@ -54,9 +54,9 @@
               <span>Artist:</span><p>${card.artist}</p>
             </li>
           </ul>
-        </div>
+        </scrollable>
 
-        <div ref="details" class="tab details simplebar">
+        <scrollable ref="details" class="tab details">
           <h3>Printings:</h3>
           <ul class="printings">
             <li repeat.for="printing of card.printings"><i class="ss ss-${printing.toLowerCase()} ss-3x ss-fw" title="${sets[printing].name}"></i></li>
@@ -68,9 +68,9 @@
               <p>${legality.legality}</p>
             </li>
           </ul>
-        </div>
+        </scrollable>
 
-        <div if.bind="card.rulings" ref="rules" class="tab rules simplebar">
+        <scrollable if.bind="card.rulings" ref="rules" class="tab rules">
           <h3>Rulings:</h3>
           <ul>
             <li repeat.for="rule of card.rulings">
@@ -78,9 +78,9 @@
               <p>${rule.text}</p>
             </li>
           </ul>
-        </div>
+        </scrollable>
 
-        <div if.bind="card.foreignNames" ref="language" class="tab language">
+        <scrollable if.bind="card.foreignNames" ref="language" class="tab language">
           <h3>Foreign Names:</h3>
           <ul>
             <li repeat.for="foreignName of card.foreignNames">
@@ -88,7 +88,7 @@
               <p>${foreignName.name}</p>
             </li>
           </ul>
-        </div>
+        </scrollable>
       </div>
     </div>
   </div>

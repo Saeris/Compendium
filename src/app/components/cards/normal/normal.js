@@ -2,7 +2,7 @@ import {bindable, customElement, containerless, inject} from 'aurelia-framework'
 
 @customElement('normal')
 @containerless
-export class normalCustomElement {
+export class Normal {
   @bindable card;
   constructor() {
   }

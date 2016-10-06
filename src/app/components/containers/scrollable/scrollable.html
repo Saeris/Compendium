@@ -1,0 +1,13 @@
+<template class="scrollable">
+  <require from="./scrollable.scss"></require>
+
+  <section ref="container" class="scrollable-container">
+    <div ref="contents" class="contents">
+      <slot></slot>
+    </div>
+  </section>
+
+  <section ref="track" class="track">
+    <span ref="scrollbar" class="scrollbar"></span>
+  </section>
+</template>

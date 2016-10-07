@@ -4,8 +4,10 @@
   <section id="card-search">
     <form role="search">
       <section id="basic" ref="basic">
-        <fieldset id="names">
+        <fieldset id="text">
           <input type="search"   id="search"         value.bind="filterText"      placeholder="Search...">
+          <input type="checkbox" id="names"          checked.bind="name"          title="Names"/>
+          <input type="checkbox" id="cardtext"       checked.bind="text"          title="Card Text"/>
           <input type="submit"   id="submit">
           <input type="button"   id="show-advanced">
         </fieldset>

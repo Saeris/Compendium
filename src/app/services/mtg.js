@@ -26,7 +26,8 @@ export default class MtG {
       sets: {},
       types: [],
       supertypes: [],
-      subtypes: []
+      subtypes: [],
+      formats: []
     };
 
     // Run each of these once at startup to create a local cache

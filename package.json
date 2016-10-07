@@ -30,7 +30,7 @@
     "build:dev": "cross-env NODE_ENV=development npm run webpack -- --progress --profile",
     "prebuild:prod": "npm run clean:dist",
     "build:prod": "cross-env NODE_ENV=production npm run webpack -- --progress --profile",
-    "start": "npm run server:dev",
+    "start": "npm run server:dev:hmr",
     "server": "npm run server:dev",
     "server:dev": "cross-env NODE_ENV=development node ./node_modules/webpack-dev-server/bin/webpack-dev-server --inline --progress --profile --watch",
     "server:dev:hmr": "npm run server:dev -- --hot",
@@ -81,12 +81,11 @@
     "bootstrap": "^3.3.6",
     "font-awesome": "^4.6.3",
     "he": "^1.1.0",
-    "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.0.0",
     "keyrune": "github:andrewgioia/Keyrune",
     "mana-font": "github:andrewgioia/Mana",
     "numeral": "^1.5.3",
-    "perfect-scrollbar": "^0.6.12"
+    "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
     "@easy-webpack/config-aurelia": "^2.0.1",

@@ -1,9 +1,10 @@
 import {bindable, customElement, containerless, inject} from 'aurelia-framework';
 import Utilities from '../../../services/utilities';
 
-@inject(Utilities)
 @customElement('scrollable')
+@inject(Utilities)
 export class Scrollable {
+  trackWidth          = 10;
   scrollDirection     = 'vert';
   scrollOffsetAttr    = 'scrollTop';
   sizeAttr            = 'height';
@@ -13,11 +14,15 @@ export class Scrollable {
   // NOTE: https://github.com/Grsmto/simplebar/blob/master/src/simplebar.js#L42
   // TODO: Add custom configuration options
   constructor(utilities, config) {
+    // Import Utilities service to get browser scrollbar width
     this.utilities = utilities;
   }
 
   attached() {
-    $(this.container).css({'margin-right': ((this.utilities.scrollbarWidth + 10) * -1)});
+    // TODO: Add code to handle horizontal scrolling
+    // Add negative margin to the container to hide the browser's default scrollbar
+    $(this.container).css({'margin-right': ((this.utilities.scrollbarWidth + this.trackWidth) * -1)});
+    // Set event listeners
     $(this.scrollbar).on('mousedown', e => {
       this.startDrag(e);
     });
@@ -37,9 +42,11 @@ export class Scrollable {
   }
 
   startDrag(e) {
+    // Prevent default to keep from highlighting text by click-dragging
     e.preventDefault();
     let eventOffset = this.scrollDirection === 'horiz' ? e.pageX : e.pageY;
     this.dragOffset = eventOffset - $(this.scrollbar).offset()[this.offsetAttr];
+    // Use jQuery's proxy method to prevent duplicate events from firing
     $(document).on('mousemove', $.proxy(this.drag, this));
     $(document).on('mouseup', $.proxy(this.endDrag, this));
   }
@@ -61,6 +68,7 @@ export class Scrollable {
   }
 
   endDrag(e) {
+    // Clear event listeners when the user stops click-dragging
     $(document).off('mousemove', this.drag);
     $(document).off('mouseup', this.endDrag);
   }
@@ -86,6 +94,7 @@ export class Scrollable {
   setVisibility() {
     let contentSize   = $(this.contents)[0][this.scrollSizeAttr],
         scrollbarSize = $(this.track)[this.sizeAttr]();
+    // If the content is larger than the container, show the custom scrollbars
     if (scrollbarSize < contentSize) {
       $(this.scrollbar).addClass('visible');
     }

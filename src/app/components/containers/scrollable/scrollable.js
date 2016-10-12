@@ -1,5 +1,6 @@
 import {bindable, customElement, containerless, inject} from 'aurelia-framework';
 import Utilities from '../../../services/utilities';
+import './scrollable.scss';
 
 @customElement('scrollable')
 @inject(Utilities)

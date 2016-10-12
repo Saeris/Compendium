@@ -1,4 +1,5 @@
 import {bindable, customElement, containerless, inject} from 'aurelia-framework';
+import './normal.scss';
 
 @customElement('normal')
 @containerless

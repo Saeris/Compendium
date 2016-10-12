@@ -1,4 +1,5 @@
 import {customElement, containerless, bindable} from 'aurelia-framework';
+import './rating.scss';
 
 @customElement('rating')
 @containerless

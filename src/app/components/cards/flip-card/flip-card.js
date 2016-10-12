@@ -1,4 +1,5 @@
 import {customElement, containerless, inject} from 'aurelia-framework';
+import './flip-card.scss';
 
 @customElement('flip-card')
 @containerless

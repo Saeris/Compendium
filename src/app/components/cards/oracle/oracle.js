@@ -1,5 +1,6 @@
 import {bindable, customElement, containerless, inject} from 'aurelia-framework';
 import MtG from '../../../services/mtg';
+import './oracle.scss';
 
 @customElement('oracle')
 @containerless

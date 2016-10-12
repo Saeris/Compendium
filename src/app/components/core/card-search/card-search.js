@@ -1,5 +1,6 @@
 import {bindable, child, customElement, containerless, inject} from 'aurelia-framework';
 import MtG from '../../../services/mtg';
+import './card-search.scss';
 
 @customElement('card-search')
 @containerless

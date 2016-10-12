@@ -1,4 +1,5 @@
 import {customElement, bindable} from 'aurelia-framework';
+import './filter-slider.scss';
 
 @customElement('filter-slider')
 export class FilterSlider {

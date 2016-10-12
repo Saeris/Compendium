@@ -1,4 +1,5 @@
 import {bindable, customElement, containerless, inject} from 'aurelia-framework';
+import './card.scss';
 
 @customElement('card')
 @containerless

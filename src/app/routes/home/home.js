@@ -1,6 +1,7 @@
 import {inject} from 'aurelia-framework';
 import MtG from '../../services/mtg';
 import Utilities from '../../services/utilities';
+import './home.scss';
 
 @inject(MtG, Utilities)
 export class Home {

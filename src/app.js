@@ -1,3 +1,5 @@
+import './sass/global.scss';
+
 export class App {
   configureRouter(config, router) {
     config.title = 'Compendium';

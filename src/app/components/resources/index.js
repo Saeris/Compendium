@@ -1,5 +1,6 @@
 export function configure(config) {
   config.globalResources(
-    './rating/rating'
+    './rating/rating',
+    './filter-slider/filter-slider'
   );
 }

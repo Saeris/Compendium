@@ -2,15 +2,19 @@
   <require from="./filter-slider.scss"></require>
 
   <fieldset class="filter-slider">
-    <legend>${config.name}</legend>
+    <legend>${config.name}<button ref="reset">Reset</button></legend>
 
     <div class="slider" ref="slider">
-      <span class="meter"></span>
-      <button class="handle">${config.name} slider ${}</button>
-      <button class="handle">${config.name} slider </button>
-      <div class="ticks">
-        <button repeat.for="tick of config.ticks" data-index="0" class="tick">
-          <label>${tick}</label>
+      <div class="meter" ref="meter">
+        <span ref="selection">
+          <button class="handle" ref="min" value="0">Min</button>
+          <button class="handle" ref="max" value="1">Max</button>
+        </span>
+      </div>
+      <div class="steps" ref="steps">
+        <button repeat.for="step of config.steps" value="${$index}" class="step" title="${step.title}">
+          <span></span>
+          <label innerhtml.bind="step.content | sanitizeHTML"></label>
         </button>
       </div>
     </div>

@@ -1,9 +1,10 @@
-import {bindable, customElement, containerless, inject} from 'aurelia-framework';
+import {bindable, child, customElement, containerless, inject} from 'aurelia-framework';
 import MtG from '../../../services/mtg';
 
 @customElement('card-search')
 @containerless
 @inject(MtG)
+@child({name: 'CMC', selector: '#CMC'})
 export class CardSearch {
   // Bound input values
   // Basic Text
@@ -32,6 +33,18 @@ export class CardSearch {
   fourFive        = false;
   sixPlus         = false;
 
+  config          = {
+    cmc: {
+      name: 'Converted Mana Cost',
+      steps: [
+        '<i class="ms ms-0 ms-cost"></i>-<i class="ms ms-1 ms-cost"></i>',
+        '<i class="ms ms-2 ms-cost"></i>-<i class="ms ms-3 ms-cost"></i>',
+        '<i class="ms ms-4 ms-cost"></i>-<i class="ms ms-5 ms-cost"></i>',
+        '<i class="ms ms-6 ms-cost"></i>+'
+      ],
+      selected: true
+    }
+  }
 
   constructor(mtg) {
     this.mtg        = mtg;

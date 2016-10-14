@@ -33,7 +33,8 @@ $handleHover: #A2D4AB;
   }
 
   h3 {
-    display: inline-block;
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     color: $header;
     font-size: 1.6rem;
@@ -45,11 +46,11 @@ $handleHover: #A2D4AB;
     button {
       display: inline-block;
       width: auto;
-      height: 1.9rem;
+      height: 2rem;
       color: $text;
       font-weight: normal;
       font-size: 1.4rem;
-      line-height: 1.9rem;
+      line-height: 2rem;
       text-decoration: none;
       margin-left: 1rem;
 

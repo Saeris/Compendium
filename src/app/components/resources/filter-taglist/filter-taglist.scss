@@ -1,0 +1,162 @@
+$bg: #f3f5f9;
+
+$fill: #FEFEFE;
+$stroke: #ebedf2;
+
+$included: #A2D4AB;
+$excluded: #F67280;
+
+$header: #5A5050;
+$text: #7c9398;
+$textHover: #3a585f;
+
+.filter-taglist {
+  flex: 1 0 auto;
+  width: 26rem;
+  background-color: $bg;
+  padding: 1rem;
+
+  button {
+    background: none;
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  label {
+    margin: 0;
+    font-weight: normal;
+  }
+
+  h3 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    color: $header;
+    font-size: 1.6rem;
+    font-weight: bold;
+    border: none;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+
+    button {
+      display: inline-block;
+      width: auto;
+      height: 2rem;
+      color: $text;
+      font-weight: normal;
+      font-size: 1.4rem;
+      line-height: 2rem;
+      text-decoration: none;
+      margin-left: 1rem;
+
+      &:hover {
+        color: $textHover;
+      }
+    }
+  }
+
+  .list {
+    span {
+      display: flex;
+      background: $fill;
+      border: 0.1rem solid $stroke;
+      border-radius: 0.4rem;
+
+      input {
+        flex: 1 1 auto;
+        padding: 0.2rem;
+        background: none;
+        border: none;
+      }
+
+      button {
+        flex: 0 0 auto;
+        width: 2.4rem;
+        color: $text;
+        border-left: 0.1rem solid $stroke;
+        padding-top: 0.1rem;
+
+        &:hover {
+          color: $fill;
+          background-color: $textHover;
+        }
+      }
+    }
+  }
+
+  .tagList {
+    label {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      color: $header;
+      font-size: 1.4rem;
+      font-weight: bold;
+      border: none;
+      margin-top: 1.5rem;
+
+      button {
+        display: inline-block;
+        width: auto;
+        height: 2rem;
+        color: $text;
+        font-weight: normal;
+        font-size: 1.2rem;
+        text-decoration: none;
+        margin-left: 1rem;
+
+        &:hover {
+          color: $textHover;
+        }
+      }
+    }
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0.5rem;
+      border-color: inherit;
+
+      li {
+        flex: 0 0 auto;
+        color: $text;
+        background-color: $fill;
+        border: 0.1rem solid;
+        border-color: inherit;
+        border-radius: 0.4rem;
+        padding-left: 0.5rem;
+
+        &:not(:first-child) {
+          margin-left: 0.5rem;
+        }
+
+        button {
+          width: 2rem;
+          border-left: 0.1rem solid;
+          border-color: inherit;
+          margin-left: 0.5rem;
+
+          &:hover {
+            color: $fill;
+            background-color: $textHover;
+          }
+        }
+
+        &:hover {
+          border-color: $textHover;
+        }
+      }
+    }
+
+    &.included {
+      border-color: $included;
+    }
+
+    &.excluded {
+      border-color: $excluded;
+    }
+  }
+}

@@ -8,6 +8,7 @@ const easyWebpack = require('@easy-webpack/core');
 const generateConfig = easyWebpack.default;
 const get = easyWebpack.get;
 const path = require('path');
+const autoprefixer = require('autoprefixer');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const ENV = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() || 'development';
 let config;
@@ -67,8 +68,16 @@ const baseConfig = {
   }
 }
 
+const postCSS = {
+  postcss: [
+    autoprefixer({
+      browsers: ['last 2 versions']
+    })
+  ]
+}
+
 const extras = {
-  
+
 }
 
 // advanced configuration:
@@ -87,10 +96,12 @@ switch (ENV) {
       require('@easy-webpack/config-html')(),
 
       require('@easy-webpack/config-sass')
-        ({ allChunks: true, sourceMap: true }),
+        ({ allChunks: true, sourceMap: false, additionalLoaders: ['postcss'] }),
 
       require('@easy-webpack/config-css')
-        ({ filename: 'styles.css', allChunks: true, sourceMap: false }),
+        ({ filename: 'styles.css', allChunks: true, sourceMap: false, additionalLoaders: ['postcss'] }),
+
+      postCSS,
 
       require('@easy-webpack/config-fonts-and-images')(),
       require('@easy-webpack/config-global-bluebird')(),
@@ -126,10 +137,12 @@ switch (ENV) {
       require('@easy-webpack/config-html')(),
 
       require('@easy-webpack/config-sass')
-        ({ allChunks: true, sourceMap: true }),
+        ({ allChunks: true, sourceMap: true, additionalLoaders: ['postcss'] }),
 
       require('@easy-webpack/config-css')
-        ({ filename: 'styles.css', allChunks: true, sourceMap: false }),
+        ({ filename: 'styles.css', allChunks: true, sourceMap: false, additionalLoaders: ['postcss'] }),
+
+      postCSS,
 
       require('@easy-webpack/config-fonts-and-images')(),
       require('@easy-webpack/config-global-bluebird')(),
@@ -158,10 +171,12 @@ switch (ENV) {
       require('@easy-webpack/config-html')(),
 
       require('@easy-webpack/config-sass')
-        ({ allChunks: true, sourceMap: true }),
+        ({ allChunks: true, sourceMap: true, additionalLoaders: ['postcss'] }),
 
       require('@easy-webpack/config-css')
-        ({ filename: 'styles.css', allChunks: true, sourceMap: false }),
+        ({ filename: 'styles.css', allChunks: true, sourceMap: false, additionalLoaders: ['postcss'] }),
+
+      postCSS,
 
       require('@easy-webpack/config-fonts-and-images')(),
       require('@easy-webpack/config-global-bluebird')(),

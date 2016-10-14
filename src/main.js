@@ -9,7 +9,6 @@ import 'whatwg-fetch';
 export async function configure(aurelia) {
   aurelia.use
     .standardConfiguration()
-    .developmentLogging()
     // See documentation on organizing global resources and app features
     // http://aurelia.io/hub.html#/doc/article/aurelia/framework/latest/app-configuration-and-startup/6
     .feature('app/components/core')

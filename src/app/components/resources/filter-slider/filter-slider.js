@@ -57,6 +57,12 @@ export class FilterSlider {
         this.startDrag(e);
       }
     });
+    $(this.selection).on('touchstart', e => {
+      e.stopPropagation();
+      if(e.target.nodeName === 'BUTTON') {
+        this.startDrag(e);
+      }
+    });
     $(this.steps).on('click', e => {
       e.stopPropagation();
       this.setPosition(e);
@@ -157,7 +163,9 @@ export class FilterSlider {
     $(e.target).closest('button').addClass('active');
     // Use jQuery's proxy method to prevent duplicate events from firing
     $(document).on('mousemove', $.proxy(this.drag, this));
+    $(document).on('touchmove', $.proxy(this.drag, this));
     $(document).on('mouseup', $.proxy(this.endDrag, this));
+    $(document).on('touchend', $.proxy(this.endDrag, this));
   }
 
   drag(e) {
@@ -204,7 +212,9 @@ export class FilterSlider {
     this.updateSelection(this.currentSelection);
     // Unsubscribe from mouse events
     $(document).off('mousemove', this.drag);
+    $(document).off('touchmove', this.drag);
     $(document).off('mouseup', this.endDrag);
+    $(document).off('touchend', this.endDrag);
   }
 
   clamp(value) {

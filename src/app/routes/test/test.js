@@ -17,7 +17,11 @@ export class Test {
 
   taglist = {
     name: 'Types',
+    options: [
+      {name: "Only Legal", value: false}
+    ],
     items: [],
+    logic: true,
     excluded: true
   };
 

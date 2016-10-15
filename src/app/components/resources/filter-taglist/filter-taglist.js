@@ -8,6 +8,7 @@ export class FilterTaglist {
     included: new Set,
     excluded: new Set
   }
+  logic = false;
   /*  Filter-Taglist:
    *
    *  - A datalist input that creates lists of tags
@@ -64,6 +65,21 @@ export class FilterTaglist {
     $(this.list).val('');
   }
 
+  clearOptions(e) {
+    for (let i = 0; i < this.config.options.length; i++) {
+      this.config.options[i].value = false;
+    }
+  }
+
+  clearTags() {
+    if(e.target.value == 'included'){
+      this.logic = false;
+      this.tags.included.clear();
+    } else {
+      this.tags.excluded.clear();
+    }
+  }
+
   deleteTag(e) {
     let value = $(e.target).closest('button').val();
     if($(e.target).closest('div').hasClass('included')){
@@ -73,16 +89,10 @@ export class FilterTaglist {
     }
   }
 
-  clearTags(e) {
-    if(e.target.value == 'included'){
-      this.tags.included.clear();
-    } else {
-      this.tags.excluded.clear();
-    }
-  }
-
   reset() {
     $(this.list).val('');
+    this.logic = false;
+    this.clearOptions();
     this.tags.included.clear();
     this.tags.excluded.clear();
   }

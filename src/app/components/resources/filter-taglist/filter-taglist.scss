@@ -58,6 +58,65 @@ $textHover: #3a585f;
     }
   }
 
+  .options {
+    label {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      color: $header;
+      font-weight: bold;
+      font-size: 1.4rem;
+      border: none;
+      margin-top: 1.5rem;
+
+      button {
+        display: inline-block;
+        width: auto;
+        height: 2rem;
+        color: $text;
+        font-weight: normal;
+        font-size: 1.2rem;
+        text-decoration: none;
+        margin-left: 1rem;
+
+        &:hover {
+          color: $textHover;
+        }
+      }
+    }
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+
+      li {
+        flex: 0 0 auto;
+        color: $text;
+
+        label {
+          font-size: 1.2rem;
+          line-height: 2rem;
+          margin: 0;
+
+          i {
+            font-size: 1.6rem;
+            font-weight: bold;
+            line-height: 2rem;
+            margin-right: 0.2rem;
+            cursor: pointer;
+          }
+
+          input[type="checkbox"] {
+          	position: absolute;
+          	z-index: -1;
+          	opacity: 0;
+          }
+        }
+      }
+    }
+  }
+
   .list {
     span {
       display: flex;
@@ -114,6 +173,35 @@ $textHover: #3a585f;
       }
     }
 
+    .toggle {
+      display: inline-block;
+      font-size: 1.2rem;
+      line-height: 2rem;
+      margin: 0;
+
+      span {
+        font-weight: normal;
+        &.active {
+          font-weight: bold;
+        }
+      }
+
+      i {
+        font-size: 1.8rem;
+        font-weight: bold;
+        line-height: 2rem;
+        margin-right: 0.4rem;
+        vertical-align: bottom;
+        cursor: pointer;
+      }
+
+      input[type="checkbox"] {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+      }
+    }
+
     ul {
       display: flex;
       flex-wrap: wrap;
@@ -127,11 +215,9 @@ $textHover: #3a585f;
         border: 0.1rem solid;
         border-color: inherit;
         border-radius: 0.4rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
         padding-left: 0.5rem;
-
-        &:not(:first-child) {
-          margin-left: 0.5rem;
-        }
 
         button {
           width: 2rem;

@@ -4,15 +4,15 @@
     <div class="list">
       <span>
         <input type="text" ref="list" list="items" name="item" placeholder="${config.name}"/>
-        <button class="${config.excluded ? '' : 'last'}" ref="include"><i class="fa fa-plus" aria-hidden="true"></i></button>
-        <button class="last" if.bind="config.excluded" ref="exclude"><i class="fa fa-minus" aria-hidden="true"></i></button>
+        <button class="${config.excluded ? '' : 'last'}" if.bind="!config.simple" ref="include"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <button class="last" if.bind="config.excluded && !config.simple" ref="exclude"><i class="fa fa-minus" aria-hidden="true"></i></button>
       </span>
       <datalist id="items">
         <option repeat.for="item of config.items" value="${item}">
       </datalist>
     </div>
 
-    <div class="options" if.bind="config.options">
+    <div class="options" if.bind="config.options && !config.simple">
       <label>Options:<button class="clear" click.delegate="clearOptions()">Clear</button></label>
       <ul>
         <li repeat.for="option of config.options">
@@ -21,7 +21,7 @@
       </ul>
     </div>
 
-    <div class="tagList included" show.bind="tags.included.size > 0">
+    <div class="tagList included" show.bind="tags.included.size > 0" if.bind="!config.simple">
       <label>Included:<button class="clear" value="included" click.delegate="clearTags($event)">Clear</button></label>
       <label class="toggle" if.bind="config.logic"><i class="fa fa-fw ${logic ? 'fa-toggle-on' : 'fa-toggle-off'}" aria-hidden="true"><input type="checkbox" checked.bind="logic"></i><span class="${logic ? '' : 'active'}">And</span> / <span class="${logic ? 'active' : ''}">Or</span></label>
       <ul>
@@ -29,7 +29,7 @@
       </ul>
     </div>
 
-    <div class="tagList excluded" show.bind="tags.excluded.size > 0" if.bind="config.excluded">
+    <div class="tagList excluded" show.bind="tags.excluded.size > 0" if.bind="config.excluded && !config.simple">
       <label>Excluded:<button class="clear" value="excluded" click.delegate="clearTags($event)">Clear</button></label>
       <ul>
         <li repeat.for="tag of tags.excluded">${tag}<button class="tag" value="${tag}" click.delegate="deleteTag($event)"><i class="fa fa-times" aria-hidden="true"></i></button></li>

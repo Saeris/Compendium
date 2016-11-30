@@ -28,7 +28,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    width: 95%;
+    width: 90%;
+    max-width: 1240px;
 
     /* Tablet Portrait */
     @media only screen

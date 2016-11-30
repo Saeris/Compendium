@@ -1,0 +1,116 @@
+$bg: #f3f5f9;
+
+$header: #5A5050;
+$text: #7c9398;
+$textActive: #A2D4AB;
+$textHover: #3a585f;
+
+$stroke: #FEFEFE;
+$fill: #ebedf2;
+$hover: #A2D4AB;
+
+.filter-search {
+  width: 30rem;
+  padding: 1.5rem;
+
+  button {
+    background: none;
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  label {
+    margin: 0;
+    font-weight: normal;
+  }
+
+  h3 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    color: $header;
+    font-size: 1.6rem;
+    font-weight: bold;
+    border: none;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+
+    button {
+      display: inline-block;
+      width: auto;
+      height: 2rem;
+      color: $text;
+      font-weight: normal;
+      font-size: 1.4rem;
+      line-height: 2rem;
+      text-decoration: none;
+      margin-left: 1rem;
+
+      &:hover {
+        color: $textHover;
+      }
+    }
+  }
+
+  .search-wrapper {
+    overflow: hidden;
+    width: 27rem;
+    vertical-align: middle;
+    white-space: nowrap;
+    border: 0.1rem solid $fill;
+    border-radius: 0.5rem;
+
+    input[type="search"] {
+      width: 27rem;
+      height: 3rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      float: left;
+      color: $text;
+      padding-left: 1rem;
+      border-radius: 0.5rem;
+
+      &::-webkit-input-placeholder {
+        color: $text;
+      }
+
+      &::-webkit-calendar-picker-indicator {
+        display: none;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+    /*
+    button {
+      border-top-right-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+      border: none;
+      background: $text;
+      height: 3rem;
+      width: 3rem;
+      color: $fill;
+      opacity: 0;
+      font-size: 1.5rem;
+      transition: all .55s ease;
+    }
+
+    &:hover button,
+    &:active button,
+    &:focus button {
+      outline: none;
+      opacity: 1;
+      margin-left: -3rem;
+    }
+
+    &:hover button:hover {
+      background: $textHover;
+    }
+    */
+  }
+}

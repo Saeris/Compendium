@@ -37,13 +37,13 @@ module.exports = function(config) {
     preprocessors: {
       'spec-bundle.js': ['coverage', 'webpack', 'sourcemap']
     },
-    
+
     webpack: require('../webpack.config'),
 
     coverageReporter: {
       reporters: [{
         type: 'json',
-        subdir: '.', 
+        subdir: '.',
         file: 'coverage-final.json'
       }]
     },
@@ -87,10 +87,14 @@ module.exports = function(config) {
      * start these browsers
      * available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
      */
-    browsers: [
-      'Chrome',
-      // TODO: https://www.npmjs.com/package/karma-electron
-    ],
+    browsers: ['Chrome_no_sandbox'],
+
+    customLaunchers: {
+      Chrome_no_sandbox: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    },
 
     /*
      * Continuous Integration mode

@@ -1,0 +1,12 @@
+<template>
+  <fieldset class="filter-checklist">
+    <h3>${config.name}<button click.delegate="reset($event)">Reset</button></h3>
+    <div class="list">
+      <label repeat.for="item of config.items" title="${item.name}">
+        <i class="${item.style} ${values[item.id] ? 'selected' : ''}" aria-hidden="true">
+          <input type="checkbox"  id="${item.id}" checked.bind="values[item.id]"/>
+        </i>
+      </label>
+    </div>
+  </fieldset>
+</template>

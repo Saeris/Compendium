@@ -1,0 +1,41 @@
+$text: #7c9398;
+$textHover: #3a585f;
+
+.graph-area {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    li {
+      flex: 1 0 auto;
+      width: 15rem;
+
+      button {
+        display: inline-block;
+        height: 2rem;
+        color: $text;
+        font-weight: normal;
+        font-size: 1.4rem;
+        line-height: 2rem;
+        text-decoration: none;
+        margin-left: 1rem;
+        background: none;
+        border: none;
+
+        &:hover {
+          color: $textHover;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+
+}

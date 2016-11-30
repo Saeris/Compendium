@@ -1,0 +1,11 @@
+.drop-list {
+  display: flex;
+  flex: 1 1 auto;
+  &.horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  &.vertical {
+    flex-direction: column;
+  }
+}

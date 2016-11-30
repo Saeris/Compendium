@@ -1,16 +1,19 @@
-@import
-  'utils/reset',
-  'utils/fonts',
-  'utils/mtg',
-  'utils/variables';
+@import "utils/variables";
+@import "utils/mixins/hover";
+@import "utils/mixins/tab-focus";
 
-@import
-  '~keyrune/css/keyrune.min.css',
-  '~mana-font/css/mana.min.css',
-  '~octicons/build/font/octicons.css';
+@import "utils/normalize";
+@import "utils/reboot";
+@import "utils/mtg";
 
 body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-family: $font-family-sans-serif;
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
 }

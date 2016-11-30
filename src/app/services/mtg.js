@@ -169,19 +169,20 @@ export default class MtG {
     if (this.results.history.hasOwnProperty(request)) {
       console.log(`Returning cached request: ${request}`);
       return unionBy(this.results.cards, this.results.history[request], 'multiverseid');
+    } else {
+      let data = await this.http.fetch(request).then(response => this.parseResponse(response));
+      let results = [];
+      let response = await data.body.then(result => {
+        return result.cards
+      });
+      response.forEach(card => {
+        results.push(new Card(card));
+      });
+      // TODO: Refactor code to return header information for request/response history
+      this.results.history[request] = response;
+      this.results.cards = results;
+      return this.results.cards;
     }
-    let data = await this.http.fetch(request).then(response => this.parseResponse(response));
-    let results = [];
-    let response = await data.body.then(result => {
-      return result.cards
-    });
-    response.forEach(card => {
-      results.push(new Card(card));
-    });
-    // TODO: Refactor code to return header information for request/response history
-    this.results.history[request] = response;
-    this.results.cards = unionBy(this.results.cards, results, 'multiverseid');
-    return this.results.cards;
   }
 
   // TODO: Create tests for this method
@@ -244,6 +245,14 @@ export default class MtG {
       return result[config];
     });
     return types;
+  }
+
+  async getFormats() {
+    let data = await this.http.fetch(`/formats`).then(response => this.parseResponse(response));
+    let formats = await data.body.then(result => {
+      return result.formats;
+    });
+    return formats;
   }
 
   parseResponse(response) {

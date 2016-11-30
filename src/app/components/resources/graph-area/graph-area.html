@@ -1,0 +1,14 @@
+<template>
+  <div class="graph-area">
+    <label>${config.title}</label>
+    <div class="container">
+      <label>${config.summary}</label>
+      <div class="graph" ref=canvas></div>
+    </div>
+    <ul>
+      <li repeat.for="series of config.series">
+        <button click.delegate="toggleVisibility($event, $index)">${config.series[$index].name}</button>
+      </li>
+    </ul>
+  </div>
+</template>

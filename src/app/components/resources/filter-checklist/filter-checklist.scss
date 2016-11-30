@@ -1,0 +1,83 @@
+$header: #5A5050;
+$text: #7c9398;
+$textHover: #3a585f;
+
+.filter-checklist {
+  min-width: 30rem;
+  padding: 1.5rem;
+
+  button {
+    background: none;
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  label {
+    margin: 0;
+    font-weight: normal;
+  }
+
+  h3 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    color: $header;
+    font-size: 1.6rem;
+    font-weight: bold;
+    border: none;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+
+    button {
+      display: inline-block;
+      width: auto;
+      height: 2rem;
+      color: $text;
+      font-weight: normal;
+      font-size: 1.4rem;
+      line-height: 2rem;
+      text-decoration: none;
+      margin-left: 1rem;
+
+      &:hover {
+        color: $textHover;
+      }
+    }
+  }
+
+  .list {
+    display: flex;
+    justify-content: space-between;
+
+    label {
+      flex: 0 0 auto;
+      width: 3.5rem;
+      height: 4rem;
+      font-size: 2.8rem;
+      margin: 0;
+      margin-right: 0.4rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      i {
+        opacity: 0.5;
+        cursor: pointer;
+
+        &.selected {
+          opacity: 1;
+        }
+      }
+
+      input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+      }
+    }
+  }
+}

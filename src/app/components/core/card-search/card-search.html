@@ -2,147 +2,86 @@
   <section id="card-search">
     <form role="search">
       <section id="basic" ref="basic">
-        <fieldset id="text">
-          <input type="search"   id="search"         value.bind="filterText"      placeholder="Search...">
-          <input type="checkbox" id="names"          checked.bind="name"          title="Names"/>
-          <input type="checkbox" id="cardtext"       checked.bind="text"          title="Card Text"/>
-          <input type="submit"   id="submit">
-          <input type="button"   id="show-advanced">
-        </fieldset>
+        <div id="header">
+          <h2>Card Search:</h2>
+          <label class="input-icon advanced"><i class="fa fa-fw ${advToggle ? 'fa-times' : 'fa-sliders'}" aria-hidden="true">
+            <input type="checkbox"   id="show-advanced"  checked.bind="advToggle">
+          </i></label>
+        </div>
 
-        <fieldset id="colors">
-          <input type="checkbox" id="white"          checked.bind="white"         title="White"/>
-          <input type="checkbox" id="blue"           checked.bind="blue"          title="Blue"/>
-          <input type="checkbox" id="black"          checked.bind="black"         title="Black"/>
-          <input type="checkbox" id="red"            checked.bind="red"           title="Red"/>
-          <input type="checkbox" id="green"          checked.bind="green"         title="Green"/>
-          <input type="checkbox" id="colorless"      checked.bind="colorless"     title="Colorless"/>
-          <input type="checkbox" id="generic"        checked.bind="generic"       title="Generic"/>
-          <input type="button"   class="clear">
-        </fieldset>
+        <div id="text" show.bind="advanced">
+          <div class="search-wrapper">
+            <label><i class="fa fa-fw ${textToggle ? 'fa-toggle-on' : 'fa-toggle-off'}" aria-hidden="true">
+              <input type="checkbox" id="names"          checked.bind="textToggle"    title="Names"/>
+            </i><span show.bind="!textToggle">Name</span><span show.bind="textToggle">Text</span></label>
+            <input type="text"     id="search"         value.bind="filterText"      placeholder="Search...">
+            <button><i class="fa fa-fw fa-search" aria-hidden="true"></i></button>
+          </div>
+        </div>
 
-        <fieldset id="types">
-          <input type="checkbox" id="artifact"       checked.bind="artifact"      title="Artifact"/>
-          <input type="checkbox" id="creature"       checked.bind="creature"      title="Creatures"/>
-          <input type="checkbox" id="enchantment"    checked.bind="enchantment"   title="Enchantment"/>
-          <input type="checkbox" id="planeswalker"   checked.bind="planeswalker"  title="Planeswalker"/>
-          <input type="checkbox" id="instant"        checked.bind="instant"       title="Instant"/>
-          <input type="checkbox" id="sorcery"        checked.bind="sorcery"       title="Sorcery"/>
-          <input type="checkbox" id="land"           checked.bind="land"          title="Land"/>
-          <input type="button"   class="clear">
-        </fieldset>
-
-        <fieldset id="costs">
-          <input type="checkbox" id="zeroOne"        checked.bind="zeroOne"       title="Converted Mana Cost"/><label for="zeroOne"  ><i class="ms ms-0 ms-cost"></i>-<i class="ms ms-1 ms-cost"></i></label>
-          <input type="checkbox" id="twoThree"       checked.bind="twoThree"      title="Converted Mana Cost"/><label for="twoThree" ><i class="ms ms-2 ms-cost"></i>-<i class="ms ms-3 ms-cost"></i></label>
-          <input type="checkbox" id="fourFive"       checked.bind="fourFive"      title="Converted Mana Cost"/><label for="fourFive" ><i class="ms ms-4 ms-cost"></i>-<i class="ms ms-5 ms-cost"></i></label>
-          <input type="checkbox" id="sixPlus"        checked.bind="sixPlus"       title="Converted Mana Cost"/><label for="sixPlus"  ><i class="ms ms-6 ms-cost"></i>+</label>
-          <input type="button"   class="clear">
-        </fieldset>
-
-        <fieldset id="rarities">
-          <input type="checkbox" id="common"         checked.bind="common"        title="Common"/>
-          <input type="checkbox" id="uncommon"       checked.bind="uncommon"      title="Uncommon"/>
-          <input type="checkbox" id="rare"           checked.bind="rare"          title="Rare"/>
-          <input type="checkbox" id="mythic"         checked.bind="mythic"        title="Mythic"/>
-          <input type="button"   class="clear">
-        </fieldset>
-
-        <fieldset id="sets">
-          <input type="text"     list="sets-list"    placeholder="Sets">
-          <datalist              id="sets-list">
-            <option              class="${set.code}" value="${set.name}"         repeat.for="set of sets">
-          </datalist>
-        </fieldset>
-
-        <fieldset id="formats">
-          <input type="formats"  list="formats-list" placeholder="Formats">
-          <datalist              id="sets-list">
-            <option              value="set"         repeat.for="set of sets">
-          </datalist>
-        </fieldset>
+        <div id="filters">
+          <filter-checklist config.bind="config.colors"></filter-checklist>
+          <filter-checklist config.bind="config.basictypes"></filter-checklist>
+          <filter-checklist config.bind="config.rarities"></filter-checklist>
+          <filter-taglist config.bind="config.simplesets"></filter-taglist>
+        </div>
       </section>
 
-      <section id="advanced" ref="advanced">
-        <fieldset id="categories">
-          <button class="selected" value="Classes"><i class=""></i><label>Classes</label></button>
-          <button class="selected" value="Costs"><i class=""></i><label>Costs</label></button>
-          <button class="selected" value="Types"><i class=""></i><label>Types</label></button>
-          <button class="selected" value="Rules"><i class=""></i><label>Rules</label></button>
-          <button class="selected" value="Stats"><i class=""></i><label>Stats</label></button>
-          <button class="selected" value="Groups"><i class=""></i><label>Groups</label></button>
-          <button class="selected" value="Flavor"><i class=""></i><label>Flavor</label></button>
-        </fieldset>
+      <section id="advanced" ref="advanced" show.bind="advToggle">
+        <div id="categories" ref="nav">
+          <button class="active" value="Classes" click.delegate="switchTab($event)"><i class="ss ss-ktk ss-fw"></i><label>Classes</label></button>
+          <button class="" value="Costs"   click.delegate="switchTab($event)"><i class="ms ms-tap ms-fw"></i><label>Costs</label></button>
+          <button class="" value="Types"   click.delegate="switchTab($event)"><i class="ms ms-creature ms-fw"></i><label>Types</label></button>
+          <button class="" value="Rules"   click.delegate="switchTab($event)"><i class="ss ss-jud ss-fw"></i><label>Rules</label></button>
+          <button class="" value="Stats"   click.delegate="switchTab($event)"><i class="ss ss-usg ss-fw"></i><label>Stats</label></button>
+          <button class="" value="Groups"  click.delegate="switchTab($event)"><i class="ss ss-gpt ss-fw"></i><label>Groups</label></button>
+          <button class="" value="Flavor"  click.delegate="switchTab($event)"><i class="ss ss-v16 ss-fw"></i><label>Flavor</label></button>
+        </div>
 
-        <fieldset name="Classes" class="tab">
-          included tags, excluded tags
-          name data-list (auto-complete)
+        <div ref="Classes" class="tab active">
+          <filter-taglist config.bind="config.names"></filter-taglist>
+          <filter-taglist config.bind="config.categories"></filter-taglist>
+          <filter-taglist config.bind="config.layouts"></filter-taglist>
+        </div>
 
-          included tags, excluded tags
-          category data-list (acceleration, removal, etc)
+        <div ref="Costs" class="tab">
+          <filter-taglist config.bind="config.multicolored"></filter-taglist>
+          <filter-checklist config.bind="config.colors"></filter-checklist>
+          <filter-slider config.bind="config.cost"></filter-slider>
+        </div>
 
-          included tags, excluded tags
-          layout data-list
-        </fieldset>
+        <div ref="Types" class="tab">
+          <filter-taglist config.bind="config.supertypes"></filter-taglist>
+          <filter-taglist config.bind="config.types"></filter-taglist>
+          <filter-taglist config.bind="config.subtypes"></filter-taglist>
+        </div>
 
-        <fieldset name="Costs" class="tab">
-          included tags
-          multicolored data-list (allies, enemies, shards, wedges)
+        <div ref="Rules" class="tab">
+          <filter-taglist config.bind="config.abilities"></filter-taglist>
+          <filter-taglist config.bind="config.keywords"></filter-taglist>
+        </div>
 
-          colors check-list (linked to multicolored)
-          options (multi-only pure)
+        <div ref="Stats" class="tab">
+          <filter-slider config.bind="config.power"></filter-slider>
+          <filter-slider config.bind="config.toughness"></filter-slider>
+          <filter-slider config.bind="config.loyalty"></filter-slider>
+        </div>
 
-          cmc range-list
-          <filter-slider id="CMC"></filter-slider>
-        </fieldset>
+        <div ref="Groups" class="tab">
+          <filter-taglist config.bind="config.formats"></filter-taglist>
+          <filter-taglist config.bind="config.blocks"></filter-taglist>
+          <filter-taglist config.bind="config.sets"></filter-taglist>
+        </div>
 
-        <fieldset name="Types" class="tab">
-          included tags, excluded tags
-          supertypes data-list
+        <div ref="Flavor" class="tab">
+          <filter-checklist config.bind="config.rarities"></filter-checklist>
+          <filter-taglist config.bind="config.artists"></filter-taglist>
+        </div>
 
-          included tags, excluded tags
-          types data-list
-
-          included tags, excluded tags
-          subtypes data-list
-        </fieldset>
-
-        <fieldset name="Rules" class="tab">
-          text-search (fuzzy-matching?)
-
-          included tags, excluded tags
-          ability-type data-list (activated, triggered)
-
-          included tags, excluded tags
-          keywords data-list
-        </fieldset>
-
-        <fieldset name="Stats" class="tab">
-          power range-list
-
-          toughness range-list
-
-          loyalty range-list
-        </fieldset>
-
-        <fieldset name="Groups" class="tab">
-          included tags, excluded tags
-          sets data-list (linked)
-
-          included tags, excluded tags
-          blocks data-list
-
-          included tags, excluded tags
-          formats data-list
-          options (only-legal)
-        </fieldset>
-
-        <fieldset name="Flavor" class="tab">
-          text-search (fuzzy-matching?)
-
-          included tags
-          artist data-list (auto-complete)
-        </fieldset>
+        <div ref="Submit" id="submit">
+          <button type="submit" click.delegate="search()">Search</button>
+          <button type="reset" click.delegate="reset()">Cancel</button>
+        </div>
       </section>
     </form>
   </section>

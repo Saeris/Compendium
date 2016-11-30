@@ -13,10 +13,8 @@ $handleFill: #ebedf2;
 $handleHover: #A2D4AB;
 
 .filter-slider {
-  flex: 1 0 auto;
-  width: 26rem;
-  background-color: $sliderBG;
-  padding: 1rem;
+  width: 30rem;
+  padding: 1.5rem;
 
   button {
     background: none;
@@ -115,8 +113,6 @@ $handleHover: #A2D4AB;
         flex-wrap: wrap;
         align-items: center;
         color: $text;
-        border-left: 0.1rem solid $sliderBG;
-        border-right: 0.1rem solid $sliderBG;
         cursor: pointer;
 
         span {
@@ -124,13 +120,15 @@ $handleHover: #A2D4AB;
           width: 100%;
           height: 0.8rem;
           background: $meterBG;
+          border-left: 0.1rem solid $sliderBG;
+          border-right: 0.1rem solid $sliderBG;
         }
 
         label {
           flex: 1 0 auto;
           font-size: 1.4rem;
           cursor: pointer;
-          margin-top: 1.5rem;
+          margin-top: 1.2rem;
           padding-left: 0.5rem;
           padding-right: 0.2rem;
         }

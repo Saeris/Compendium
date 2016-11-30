@@ -1,0 +1,11 @@
+<template>
+  <fieldset class="filter-search">
+    <h3>${config.name}<button click.delegate="reset($event)">Reset</button></h3>
+    <div class="search-wrapper">
+      <input type="search" ref="input" list="results" name="search" placeholder="${config.placeholder}"/>
+      <datalist id="results">
+        <option repeat.for="result of results" value="${result.name}">
+      </datalist>
+    </div>
+  </fieldset>
+</template>

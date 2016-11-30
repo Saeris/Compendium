@@ -62,6 +62,8 @@
   },
   "dependencies": {
     "@reactivex/rxjs": "^5.0.0-beta.12",
+    "aurelia-api": "^3.0.0",
+    "aurelia-authentication": "^3.1.0",
     "aurelia-bootstrapper-webpack": "^1.0.0",
     "aurelia-event-aggregator": "^1.0.0",
     "aurelia-fetch-client": "^1.0.1",
@@ -70,6 +72,7 @@
     "aurelia-http-client": "^1.0.0",
     "aurelia-loader-webpack": "^1.0.3",
     "aurelia-logging-console": "^1.0.0",
+    "aurelia-orm": "^3.0.1",
     "aurelia-pal-browser": "^1.0.0",
     "aurelia-polyfills": "^1.1.1",
     "aurelia-route-recognizer": "^1.1.0",
@@ -144,7 +147,11 @@
   },
   "postcss": {
     "plugins": {
-      "postcss-cssnext": { "browsers": ["last 2 versions"] }
+      "postcss-cssnext": {
+        "browsers": [
+          "last 2 versions"
+        ]
+      }
     }
   }
 }

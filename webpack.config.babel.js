@@ -44,6 +44,8 @@ const coreBundles = {
   ],
   // these will be included in the 'aurelia' bundle (except for the above bootstrap packages)
   aurelia: [
+    'aurelia-api',
+    'aurelia-authentication',
     'aurelia-bootstrapper-webpack',
     'aurelia-binding',
     'aurelia-dependency-injection',
@@ -56,6 +58,7 @@ const coreBundles = {
     'aurelia-logging',
     'aurelia-logging-console',
     'aurelia-metadata',
+    'aurelia-orm',
     'aurelia-pal',
     'aurelia-pal-browser',
     'aurelia-path',

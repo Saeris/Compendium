@@ -30,11 +30,11 @@ exports.config = {
   onPrepare: function() {
     require('babel-register')({
       plugins: ['transform-decorators-legacy'],
-      presets: ['es2015-loose-native-modules', 'stage-1'],
-    });
+      presets: ['es2015-loose-native-modules', 'stage-1']
+    })
   },
 
   plugins: [{
     package: 'aurelia-tools/plugins/protractor'
   }]
-};
+}

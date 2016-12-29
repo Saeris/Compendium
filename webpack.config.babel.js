@@ -2,10 +2,8 @@
  * To learn more about how to use Easy Webpack
  * Take a look at the README here: https://github.com/easy-webpack/core
  **/
-import { generateConfig, get, stripMetadata, EasyWebpackConfig } from '@easy-webpack/core'
+import { generateConfig, stripMetadata } from '@easy-webpack/core'
 import path from 'path'
-import webpack from 'webpack'
-import autoprefixer from 'autoprefixer'
 import envProd from '@easy-webpack/config-env-production'
 import envDev from '@easy-webpack/config-env-development'
 import aurelia from '@easy-webpack/config-aurelia'
@@ -123,7 +121,7 @@ let config = generateConfig(
   {
     resolve: {
       alias: {
-       'crossfilter': 'crossfilter2'
+        'crossfilter': 'crossfilter2'
       }
     }
   }

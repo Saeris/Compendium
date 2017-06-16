@@ -4,7 +4,7 @@
 
 Before you start, make sure you have a working [NodeJS](http://nodejs.org/) environment,
 with NPM 3. Preferably use [Yarn](https://yarnpkg.com/) instead of NPM for installation
-of packages to ensure that you'll use exactly the same dependencies as the project.
+of packages to ensure that you'll use the same dependencies as the project.
 
 From the project folder, execute the following command:
 
@@ -19,7 +19,7 @@ yarn
 ```
 
 This will install all required dependencies, including a local version of Webpack that is going to
-build and bundle the app. There is no need to install Webpack globally.
+build and bundle the app. No need to install Webpack globally.
 
 To run the app execute the following command:
 
@@ -45,4 +45,4 @@ To build an optimized, minified production bundle (output to /dist) execute:
 npm run build:prod
 ```
 
-The production bundle includes all files that are required for deployment.
+The production bundle includes all files required for deployment.

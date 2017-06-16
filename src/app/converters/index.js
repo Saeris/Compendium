@@ -1,5 +1,6 @@
 export function configure(config) {
   config.globalResources(
-    './number-format'
-  );
+    `./number-format`,
+    `./snap`
+  )
 }

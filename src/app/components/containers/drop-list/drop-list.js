@@ -1,11 +1,13 @@
-import {bindable, customElement, containerless} from 'aurelia-framework';
-import './drop-list.scss';
+import './drop-list.scss'
 
-@customElement('drop-list')
+@customElement(`drop-list`)
 @containerless
 export class DropList {
   @bindable config = {
-    id: '',
+    id: ``,
     direction: false
+  }
+  constructor() {
+    this.log = LogManager.getLogger(`Compendium/${this.constructor.name}`)
   }
 }

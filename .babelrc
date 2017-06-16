@@ -2,8 +2,12 @@
   "env": {
     "webpack": {
       "plugins": [
+        "transform-commonjs-es2015-modules",
         "transform-decorators-legacy",
-        "transform-class-properties"
+        "transform-class-properties",
+        "transform-object-rest-spread",
+        "transform-es2015-shorthand-properties",
+        "transform-function-bind"
       ],
       "presets": [
         [
@@ -23,8 +27,12 @@
     },
     "e2e": {
       "plugins": [
+        "transform-commonjs-es2015-modules",
         "transform-decorators-legacy",
-        "transform-class-properties"
+        "transform-class-properties",
+        "transform-object-rest-spread",
+        "transform-es2015-shorthand-properties",
+        "transform-function-bind"
       ],
       "presets": [
         [

@@ -12,9 +12,9 @@
  * file for our client, when we run test, it well compile and bundle them
  * all here! Crazy huh. So we need to do some setup
  */
-Error.stackTraceLimit = Infinity;
+Error.stackTraceLimit = Infinity
 
-require('aurelia-bootstrapper-webpack');
+require('aurelia-bootstrapper-webpack')
 
 /*
  * Ok, this is kinda crazy. We can use the the context method on
@@ -25,7 +25,7 @@ require('aurelia-bootstrapper-webpack');
  * any file that ends with spec.js and get its path. By passing in true
  * we say do this recursively
  */
-var testContext = require.context('./unit', true, /\.spec\.(ts|js)/);
+let testContext = require.context('./unit', true, /\.spec\.(ts|js)/)
 
 /*
  * get all the files, for each file, call the context function
@@ -33,8 +33,8 @@ var testContext = require.context('./unit', true, /\.spec\.(ts|js)/);
  * loop and require those spec files here
  */
 function requireAll(requireContext) {
-  return requireContext.keys().map(requireContext);
+  return requireContext.keys().map(requireContext)
 }
 
 // requires and returns all modules that match
-var modules = requireAll(testContext);
+let modules = requireAll(testContext)

@@ -1,5 +1,7 @@
 <template>
   <app-header router.bind="router"></app-header>
-  <router-view></router-view>
+  <main id="${id}">
+    <router-view containerless></router-view>
+  </main>
   <app-footer></app-footer>
 </template>

@@ -1,14 +1,14 @@
-import {bindable, customElement, containerless, inject} from 'aurelia-framework';
-import './card.scss';
+import './card.scss'
 
-@customElement('card')
+@customElement(`card`)
 @containerless
 export class Card {
-  @bindable config;
+  @bindable config
   constructor() {
+    this.log = LogManager.getLogger(`Compendium/${this.constructor.name}`)
     this.config = {
-      view: '',
+      view: ``,
       model: []
-    };
+    }
   }
 }

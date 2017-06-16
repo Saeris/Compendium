@@ -1,4 +1,4 @@
-import numeral from 'numeral';
+import numeral from 'numeral'
 
 /*
  * A value converter for Numeral.js
@@ -6,7 +6,5 @@ import numeral from 'numeral';
  * To be used as a helper method to format raw numerical values, such as currencies
  */
 export class NumberFormatValueConverter {
-  toView(value, format) {
-    return numeral(value).format(format);
-  }
+  toView = (value, format) => numeral(value).format(format)
 }

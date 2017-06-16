@@ -2,8 +2,8 @@
  * Inspired by @AngularClass
  * https://github.com/AngularClass/angular2-webpack-starter
  */
-"use strict";
-const path = require('path');
+const path = require('path')
+require('babel-register')({ only: '*.babel.js' })
 
 module.exports = function(config) {
   config.set({
@@ -27,7 +27,7 @@ module.exports = function(config) {
      * we are building the test environment in ./spec-bundle.js
      */
     files: [
-      { pattern: 'spec-bundle.js', watched: false },
+      { pattern: 'spec-bundle.js', watched: false }
     ],
 
     /*
@@ -38,7 +38,7 @@ module.exports = function(config) {
       'spec-bundle.js': ['coverage', 'webpack', 'sourcemap']
     },
 
-    webpack: require('../webpack.config'),
+    webpack: require('../webpack.config.babel'),
 
     coverageReporter: {
       reporters: [{
@@ -101,6 +101,5 @@ module.exports = function(config) {
      * if true, Karma captures browsers, runs the tests and exits
      */
     singleRun: true
-  });
-
-};
+  })
+}

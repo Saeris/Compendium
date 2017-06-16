@@ -1,13 +1,13 @@
-import {bindable, customElement, containerless, inject} from 'aurelia-framework';
-import './normal.scss';
+import './normal.scss'
 
-@customElement('normal')
+@customElement(`normal`)
 @containerless
 export class Normal {
-  @bindable card;
+  @bindable card
   constructor() {
+    this.log = LogManager.getLogger(`Compendium/${this.constructor.name}`)
   }
   activate(card) {
-    this.card = card;
+    this.card = card
   }
 }

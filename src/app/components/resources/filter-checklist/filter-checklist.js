@@ -1,10 +1,9 @@
-import {customElement, bindable} from 'aurelia-framework';
-import './filter-checklist.scss';
+import './filter-checklist.scss'
 
-@customElement('filter-checklist')
+@customElement(`filter-checklist`)
 export class FilterChecklist {
-  @bindable config = {};
-  values = new Map();
+  @bindable config = {}
+  values = new Map()
   /*  Filter-Taglist:
    *
    *  - A datalist input that creates lists of tags
@@ -21,13 +20,17 @@ export class FilterChecklist {
    *  property, and must be explicitly called to get it's current value, such as
    *  inside a form submission function.
    */
+  constructor() {
+    this.log = LogManager.getLogger(`Compendium/${this.constructor.name}`)
+  }
+
   attached() {
-    this.reset();
+    this.reset()
   }
 
   reset() {
-    for (var i = 0; i < this.config.items.length; i++) {
-      this.values[this.config.items[i].id] = this.config.setting;
+    for (let i = 0; i < this.config.items.length; i++) {
+      this.values[this.config.items[i].id] = this.config.setting
     }
   }
 }

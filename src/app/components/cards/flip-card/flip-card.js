@@ -1,14 +1,14 @@
-import {customElement, containerless, inject} from 'aurelia-framework';
-import './flip-card.scss';
+import './flip-card.scss'
 
-@customElement('flip-card')
+@customElement(`flip-card`)
 @containerless
 export class FlipCard {
   constructor(config = {}) {
-    this.activated = config.activated || true;
+    this.log = LogManager.getLogger(`Compendium/${this.constructor.name}`)
+    this.activated = config.activated || true
   }
 
-  flip(){
-    this.flipCard.classList.toggle("flipped")
+  flip() {
+    this.flipCard.classList.toggle(`flipped`)
   }
 }

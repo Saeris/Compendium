@@ -1,7 +1,5 @@
-import Snap from 'snapsvg-cjs';
+import snap from 'snapsvg-cjs'
 
 export class AsSnapValueConverter {
-  fromView(svg) {
-    return Snap(svg);
-  }
+  fromView = (svg) => snap(svg)
 }

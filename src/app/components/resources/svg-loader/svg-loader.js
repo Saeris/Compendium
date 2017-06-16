@@ -1,10 +1,12 @@
-import {customElement, containerless, bindable} from 'aurelia-framework';
-import './svg-loader.scss';
+import './svg-loader.scss'
 
-@customElement('svg-loader')
+@customElement(`svg-loader`)
 @containerless
 export class SVGLoader {
-  @bindable src = '';
+  @bindable src = ``
+  constructor() {
+    this.log = LogManager.getLogger(`Compendium/${this.constructor.name}`)
+  }
 
   loadSVG(url) {
     /*
@@ -12,30 +14,30 @@ export class SVGLoader {
     *  So to make things work, wrap the load function in a promise, then use
     *  the Async/Await feature of ES7 to continue working synchronously.
     */
-    let fragment;
+    let fragment
     return new Promise(function(resolve, reject) {
-      Snap.load(url, function(loadedFragment){
-        fragment = loadedFragment;
-        resolve(fragment);
-      });
-    });
+      Snap.load(url, function(loadedFragment) {
+        fragment = loadedFragment
+        resolve(fragment)
+      })
+    })
   }
 
   async attached() {
-    let svg = this.svg;
+    let svg = this.svg
     if (this.src) {
-      let fragment =  await this.loadSVG(this.src);
-      let contents = fragment.select('svg');
+      let fragment =  await this.loadSVG(this.src)
+      let contents = fragment.select(`svg`)
       let attributes = {
-        preserveAspectRatio: "xMidYMid meet"
-      };
-      for (var i = 0; i < contents.node.attributes.length; i++) {
-        attributes[contents.node.attributes[i].name] = contents.node.attributes[i].value;
+        preserveAspectRatio: `xMidYMid meet`
       }
-      for (var i = 0; i < contents.node.children.length; i++) {
-        svg.append(contents.node.children[i]);
+      for (let i = 0; i < contents.node.attributes.length; i++) {
+        attributes[contents.node.attributes[i].name] = contents.node.attributes[i].value
       }
-      svg.attr(attributes);
+      for (let i = 0; i < contents.node.children.length; i++) {
+        svg.append(contents.node.children[i])
+      }
+      svg.attr(attributes)
     }
   }
 }

@@ -1,14 +1,16 @@
-import {customElement, bindable} from 'aurelia-framework';
-import './filter-taglist.scss';
+import './filter-taglist.scss'
 
-@customElement('filter-taglist')
+@customElement(`filter-taglist`)
 export class FilterTaglist {
-  @bindable config = {};
+  @bindable config = {}
   tags = {
     included: new Set,
     excluded: new Set
   }
-  logic = false;
+  logic = false
+  constructor() {
+    this.log = LogManager.getLogger(`Compendium/${this.constructor.name}`)
+  }
   /*  Filter-Taglist:
    *
    *  - A datalist input that creates lists of tags
@@ -27,73 +29,73 @@ export class FilterTaglist {
    */
   attached() {
     $(this.list).keyup(e => {
-      if(e.keyCode == 13 && $(this.list).val()) {
-        if(e.shiftKey) {
-          this.addTag(e);
+      if (e.keyCode === 13 && $(this.list).val()) {
+        if (e.shiftKey) {
+          this.addTag(e)
         } else {
-          this.addTag(e, true);
+          this.addTag(e, true)
         }
       }
-    });
-    $(this.include).on('click', e => {
-      if($(this.list).val()) {
-        this.addTag(e, true);
+    })
+    $(this.include).on(`click`, e => {
+      if ($(this.list).val()) {
+        this.addTag(e, true)
       }
-    });
-    $(this.exclude).on('click', e => {
-      if($(this.list).val()) {
-        this.addTag(e);
+    })
+    $(this.exclude).on(`click`, e => {
+      if ($(this.list).val()) {
+        this.addTag(e)
       }
-    });
+    })
   }
 
   addTag(e, list = false) {
     // Decide which list to add the tag to
-    if(list || !this.config.excluded){
+    if (list || !this.config.excluded) {
       // If the tag already exists in the other list, remove it
-      if( this.tags.excluded.has($(this.list).val()) ){
-        this.tags.excluded.delete($(this.list).val());
+      if ( this.tags.excluded.has($(this.list).val()) ) {
+        this.tags.excluded.delete($(this.list).val())
       }
-      this.tags.included.add($(this.list).val());
+      this.tags.included.add($(this.list).val())
     } else {
-      if( this.tags.included.has($(this.list).val()) ){
-        this.tags.included.delete($(this.list).val());
+      if ( this.tags.included.has($(this.list).val()) ) {
+        this.tags.included.delete($(this.list).val())
       }
-      this.tags.excluded.add($(this.list).val());
+      this.tags.excluded.add($(this.list).val())
     }
     // Clear the input field
-    $(this.list).val('');
+    $(this.list).val(``)
   }
 
   clearOptions(e) {
     for (let i = 0; i < this.config.options.length; i++) {
-      this.config.options[i].value = false;
+      this.config.options[i].value = false
     }
   }
 
   clearTags() {
-    if(e.target.value == 'included'){
-      this.logic = false;
-      this.tags.included.clear();
+    if (e.target.value === `included`) {
+      this.logic = false
+      this.tags.included.clear()
     } else {
-      this.tags.excluded.clear();
+      this.tags.excluded.clear()
     }
   }
 
   deleteTag(e) {
-    let value = $(e.target).closest('button').val();
-    if($(e.target).closest('div').hasClass('included')){
-      this.tags.included.delete(value);
+    let value = $(e.target).closest(`button`).val()
+    if ($(e.target).closest(`div`).hasClass(`included`)) {
+      this.tags.included.delete(value)
     } else {
-      this.tags.excluded.delete(value);
+      this.tags.excluded.delete(value)
     }
   }
 
   reset() {
-    $(this.list).val('');
-    this.logic = false;
-    this.clearOptions();
-    this.tags.included.clear();
-    this.tags.excluded.clear();
+    $(this.list).val(``)
+    this.logic = false
+    this.clearOptions()
+    this.tags.included.clear()
+    this.tags.excluded.clear()
   }
 }

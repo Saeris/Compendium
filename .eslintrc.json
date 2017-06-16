@@ -1,6 +1,10 @@
 {
   "extends": "./node_modules/aurelia-tools/.eslintrc.json",
   "rules": {
-        "semi": ["error", "never"]
+      "semi": ["error", "never"],
+      "quotes": [
+        2, "backtick", "avoid-escape"
+      ],
+      "object-shorthand": ["error", "consistent-as-needed"]
     }
 }

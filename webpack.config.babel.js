@@ -122,6 +122,7 @@ let config = generateConfig(
     commonChunksOptimize({appChunkName: `app`, firstChunk: `aurelia-bootstrap`}),
     //copyFiles({patterns: [{ from: `favicon.ico`, to: `favicon.ico` }]}),
     copyFiles({patterns: [
+      { from: `_redirects` },
       { context: `src/img`, from: `**/*`, to: `img` }
     ]})
   ] : [

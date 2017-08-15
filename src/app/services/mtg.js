@@ -1,22 +1,23 @@
-import {HttpClient} from 'aurelia-fetch-client';
-import unionBy from "lodash/unionBy";
-import values from "lodash/values";
-import Card from '../models/card';
-import Set from '../models/set';
+import { HttpClient } from 'aurelia-fetch-client'
+import unionBy from 'lodash/unionBy'
+import values from 'lodash/values'
+import Card from '../models/card'
+import Set from '../models/set'
 
 export default class MtG {
   constructor() {
-    this.BaseUrl = 'https://api.magicthegathering.io/v1';
+    this.log = LogManager.getLogger(`Compendium/${this.constructor.name}`)
+    this.BaseUrl = `https://api.magicthegathering.io/v1`
     this.http = new HttpClient().configure(config => {
       config
         .withBaseUrl(this.BaseUrl)
         .withDefaults({
           headers: {
-            'Accept': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Accept': `application/json`,
+            'Access-Control-Allow-Origin': `*`
           }
-        });
-    });
+        })
+    })
 
     // Cache of fetch results
     // TODO: Set up history to prevent repeat requests to the API
@@ -28,24 +29,24 @@ export default class MtG {
       supertypes: [],
       subtypes: [],
       formats: []
-    };
+    }
 
     // Run each of these once at startup to create a local cache
     this.getSets().then(results => {
-      this.results.sets = results;
-    });
+      this.results.sets = results
+    })
 
-    this.getTypes('types').then(results => {
-      this.results.types = results;
-    });
+    this.getTypes(`types`).then(results => {
+      this.results.types = results
+    })
 
-    this.getTypes('supertypes').then(results => {
-      this.results.supertypes = results;
-    });
+    this.getTypes(`supertypes`).then(results => {
+      this.results.supertypes = results
+    })
 
-    this.getTypes('subtypes').then(results => {
-      this.results.subtypes = results;
-    });
+    this.getTypes(`subtypes`).then(results => {
+      this.results.subtypes = results
+    })
   }
   /* TODO: Implement error handling for all requests.
    *
@@ -139,120 +140,115 @@ export default class MtG {
 
   async getCards(config = {}) {
     let parameters = {
-      name:         this.toList('name', config.name),
-      layout:       this.toList('layout', config.layout),
-      cmc:          this.toFieldWithMod ('cmc', config.cmc),
-      colors:       this.toLogicalList('colors', config.colors),
-      type:         this.toList('type', config.type),
-      supertypes:   this.toLogicalList('supertypes', config.supertypes),
-      types:        this.toLogicalList('types', config.types),
-      subtypes:     this.toLogicalList('subtypes', config.subtypes),
-      rarity:       this.toList('rarity', config.rarity),
-      set:          this.toList('set', config.set),
-      setName:      this.toList('setName', config.setName),
-      text:         this.toList('text', config.text),
-      flavor:       this.toList('flavor', config.flavor),
-      artist:       this.toList('artist', config.artist),
-      number:       this.toList('number', config.number),
-      power:        this.toFieldWithMod ('power', config.power),
-      toughness:    this.toFieldWithMod ('toughness', config.toughness),
-      loyalty:      this.toFieldWithMod ('loyalty', config.loyalty),
-      foreignNames: this.toField('foreignNames', config.foreignNames),
-      language:     this.toField('language', config.language),
-      gameFormat:   this.toField('gameFormat', config.gameFormat),
-      legality:     this.toField('legality', config.legality),
-      page:         this.toField('page', config.page),
-      pageSize:     this.toField('pageSize', config.pageSize)
-    };
-    let query = values(parameters).filter(string =>{return string !== ''}).join('&');
-    let request = `/cards?${encodeURI(query)}`;
-    if (this.results.history.hasOwnProperty(request)) {
-      console.log(`Returning cached request: ${request}`);
-      return unionBy(this.results.cards, this.results.history[request], 'multiverseid');
-    } else {
-      let data = await this.http.fetch(request).then(response => this.parseResponse(response));
-      let results = [];
-      let response = await data.body.then(result => {
-        return result.cards
-      });
-      response.forEach(card => {
-        results.push(new Card(card));
-      });
-      // TODO: Refactor code to return header information for request/response history
-      this.results.history[request] = response;
-      this.results.cards = results;
-      return this.results.cards;
+      name: this.toList(`name`, config.name),
+      layout: this.toList(`layout`, config.layout),
+      cmc: this.toFieldWithMod(`cmc`, config.cmc),
+      colors: this.toLogicalList(`colors`, config.colors),
+      type: this.toList(`type`, config.type),
+      supertypes: this.toLogicalList(`supertypes`, config.supertypes),
+      types: this.toLogicalList(`types`, config.types),
+      subtypes: this.toLogicalList(`subtypes`, config.subtypes),
+      rarity: this.toList(`rarity`, config.rarity),
+      set: this.toList(`set`, config.set),
+      setName: this.toList(`setName`, config.setName),
+      text: this.toList(`text`, config.text),
+      flavor: this.toList(`flavor`, config.flavor),
+      artist: this.toList(`artist`, config.artist),
+      number: this.toList(`number`, config.number),
+      power: this.toFieldWithMod(`power`, config.power),
+      toughness: this.toFieldWithMod(`toughness`, config.toughness),
+      loyalty: this.toFieldWithMod(`loyalty`, config.loyalty),
+      foreignNames: this.toField(`foreignNames`, config.foreignNames),
+      language: this.toField(`language`, config.language),
+      gameFormat: this.toField(`gameFormat`, config.gameFormat),
+      legality: this.toField(`legality`, config.legality),
+      page: this.toField(`page`, config.page),
+      pageSize: this.toField(`pageSize`, config.pageSize)
     }
+    let query = values(parameters).filter(string =>{return string !== ``}).join(`&`)
+    let request = `/cards?${encodeURI(query)}`
+    if (this.results.history.hasOwnProperty(request)) {
+      this.log.debug(`Returning cached request: ${request}`)
+      return unionBy(this.results.cards, this.results.history[request], `multiverseid`)
+    }
+    let data = await this.http.fetch(request).then(response => this.parseResponse(response))
+    let results = []
+    let response = await data.body.then(result => result.cards)
+    response.forEach(card => results.push(new Card(card)))
+    // TODO: Refactor code to return header information for request/response history
+    this.results.history[request] = response
+    this.results.cards = results
+    return this.results.cards
   }
 
   // TODO: Create tests for this method
   async getCard(id) {
-    let data = await this.http.fetch(`/cards/${id}`).then(response => this.parseResponse(response));
+    let data = await this.http.fetch(`/cards/${id}`).then(response => this.parseResponse(response))
     let card = await data.body.then(result => {
-      return result.cards;
-    });
-    return new Card(card);
+      return result.cards
+    })
+    return new Card(card)
   }
 
   // TODO: Create tests for this method
   async getBooster(set) {
-    let data = await this.http.fetch(`/sets/${set}/booster`).then(response => this.parseResponse(response));
-    let results = [];
+    let data = await this.http.fetch(`/sets/${set}/booster`).then(response => this.parseResponse(response))
+    let results = []
     let response = await data.body.then(result => {
       return result.cards
-    });
+    })
     response.forEach(card => {
-      results.push(new Card(card));
-    });
-    return results;
+      results.push(new Card(card))
+    })
+    return results
   }
 
   // TODO: Add handler to ensure all sets are being retrieved (ie: total-count > page-size)
   async getSets(config = {}) {
     let parameters = {
-      name:   this.toSetList('name', config.name),
-      block:  this.toList('block', config.block)
-    };
-    let query = values(parameters).filter(string =>{return string !== ''}).join('&');
-    let data = await this.http.fetch(`/sets?${encodeURI(query)}`).then(response => this.parseResponse(response));
-    let results = [];
+      name: this.toSetList(`name`, config.name),
+      block: this.toList(`block`, config.block)
+    }
+    let query = values(parameters).filter(string =>{return string !== ``}).join(`&`)
+    let data = await this.http.fetch(`/sets?${encodeURI(query)}`).then(response => this.parseResponse(response))
+    let results = []
     let response = await data.body.then(result => {
       return result.sets
-    });
+    })
     response.forEach(set => {
-      results.push(new Set(set));
-    });
-    let sets = {};
+      results.push(new Set(set))
+    })
+    let sets = {}
     results.forEach(set => {
-      sets[set.code] = set;
-    });
-    this.results.sets = sets;
-    return sets;
+      sets[set.code] = set
+    })
+    this.results.sets = sets
+    return sets
   }
 
   // TODO: Create tests for this method
   async getSet(id) {
-    let data = await this.http.fetch(`/sets/${id}`).then(response => this.parseResponse(response));
+    let data = await this.http.fetch(`/sets/${id}`).then(response => this.parseResponse(response))
     let set = await data.body.then(result => {
-      return result.sets;
-    });
-    return new Set(set);
+      return result.sets
+    })
+    return new Set(set)
   }
 
-  async getTypes(config = 'types') {
-    let data = await this.http.fetch(`/${config}`).then(response => this.parseResponse(response));
+  async getTypes(config = `types`) {
+    let data = await this.http.fetch(`/${config}`).then(response => this.parseResponse(response))
     let types = await data.body.then(result => {
-      return result[config];
-    });
-    return types;
+      return result[config]
+    })
+    return types
   }
 
   async getFormats() {
-    let data = await this.http.fetch(`/formats`).then(response => this.parseResponse(response));
+    let data = await this.http.fetch(`/formats`).then(response => this.parseResponse(response))
     let formats = await data.body.then(result => {
-      return result.formats;
-    });
-    return formats;
+      return result.formats
+    })
+    return formats
   }
 
   parseResponse(response) {
@@ -261,62 +257,56 @@ export default class MtG {
       body: response.json()
     }
     for (let pair of response.headers.entries()) {
-      config.headers[pair[0]] = pair[1];
+      config.headers[pair[0]] = pair[1]
     }
-    return new Response(config);
+    return new Response(config)
   }
 
   addModifiers(parameter, data) {
-    if ((typeof data === "object") && (data !== null)) {
-      if (data.modifier !== '') {
-        return `${parameter}=${data.modifier}${data.value}`;
-      } else {
-        return `${parameter}=${data.value}`;
+    if ((typeof data === `object`) && (data !== null)) {
+      if (data.modifier !== ``) {
+        return `${parameter}=${data.modifier}${data.value}`
       }
-    } else {
-      return `${parameter}=${data}`;
+      return `${parameter}=${data.value}`
     }
+    return `${parameter}=${data}`
   }
 
   toField(parameter, data) {
-    return ((data !== '') && (typeof data !== 'undefined')) ? `${parameter}=${data}` : '' || '';
+    return ((data !== ``) && (typeof data !== `undefined`)) ? `${parameter}=${data}` : `` || ``
   }
 
-  toFieldWithMod (parameter, data) {
-    return ((data !== '') && (typeof data !== 'undefined')) ? this.addModifiers(parameter, data) : '';
+  toFieldWithMod(parameter, data) {
+    return ((data !== ``) && (typeof data !== `undefined`)) ? this.addModifiers(parameter, data) : ``
   }
 
   toList(parameter, data) {
     if (Array.isArray(data)) {
-      return `${parameter}=${data.join()}`;
-    } else if ((data !== '') && (typeof data !== 'undefined')) {
-      return `${parameter}=${data}`;
-    } else {
-      return '';
+      return `${parameter}=${data.join()}`
+    } else if ((data !== ``) && (typeof data !== `undefined`)) {
+      return `${parameter}=${data}`
     }
+    return ``
   }
 
   toSetList(parameter, data) {
     if (Array.isArray(data)) {
-      return `${parameter}=${data.join('|')}`;
-    } else if ((data !== '') && (typeof data !== 'undefined')) {
-      return `${parameter}=${data}`;
-    } else {
-      return '';
+      return `${parameter}=${data.join(`|`)}`
+    } else if ((data !== ``) && (typeof data !== `undefined`)) {
+      return `${parameter}=${data}`
     }
+    return ``
   }
 
   toLogicalList(parameter, data) {
-    if ((typeof data === "object") && (data !== null)) {
+    if ((typeof data === `object`) && (data !== null)) {
       if (Array.isArray(data.value)) {
-        let logic = data.logic ? ',' : '|';
-        return `${parameter}=${data.value.join(logic)}`;
-      } else {
-        return `${parameter}=${data.value}`;
+        let logic = data.logic ? `,` : `|`
+        return `${parameter}=${data.value.join(logic)}`
       }
-    } else {
-      return '';
+      return `${parameter}=${data.value}`
     }
+    return ``
   }
 }
 
@@ -324,11 +314,11 @@ export default class MtG {
 
 class Response {
   constructor(config) {
-    this.body = config.body;
-    this.count = parseInt(config.headers.count, 10);
-    this.size = parseInt(config.headers['page-size'], 10);
-    this.limit = parseInt(config.headers['ratelimit-limit'], 10);
-    this.remaining = parseInt(config.headers['ratelimit-remaining'], 10);
-    this.total = parseInt(config.headers['total-count'], 10);
+    this.body = config.body
+    this.count = parseInt(config.headers.count, 10)
+    this.size = parseInt(config.headers[`page-size`], 10)
+    this.limit = parseInt(config.headers[`ratelimit-limit`], 10)
+    this.remaining = parseInt(config.headers[`ratelimit-remaining`], 10)
+    this.total = parseInt(config.headers[`total-count`], 10)
   }
 }

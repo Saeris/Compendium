@@ -1,4 +1,4 @@
-import numeral from 'numeral';
+import numeral from "numeral"
 
 /*
  * A value converter for Numeral.js
@@ -7,6 +7,6 @@ import numeral from 'numeral';
  */
 export class NumberFormatValueConverter {
   toView(value, format) {
-    return numeral(value).format(format);
+    return numeral(value).format(format)
   }
 }

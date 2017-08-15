@@ -2,8 +2,12 @@
   "env": {
     "webpack": {
       "plugins": [
+        "transform-commonjs-es2015-modules",
         "transform-decorators-legacy",
-        "transform-class-properties"
+        "transform-class-properties",
+        "transform-object-rest-spread",
+        "transform-es2015-shorthand-properties",
+        "transform-function-bind"
       ],
       "presets": [
         [
@@ -16,15 +20,24 @@
               ]
             },
             "loose": true,
-            "modules": false
+            "modules": false,
+            "include": [
+              "transform-es2015-literals",
+              "transform-es2015-template-literals"
+            ],
+            "useBuiltIns": true
           }
         ]
       ]
     },
     "e2e": {
       "plugins": [
+        "transform-commonjs-es2015-modules",
         "transform-decorators-legacy",
-        "transform-class-properties"
+        "transform-class-properties",
+        "transform-object-rest-spread",
+        "transform-es2015-shorthand-properties",
+        "transform-function-bind"
       ],
       "presets": [
         [
@@ -37,7 +50,12 @@
               ]
             },
             "loose": true,
-            "modules": "commonjs"
+            "modules": "commonjs",
+            "include": [
+              "transform-es2015-literals",
+              "transform-es2015-template-literals"
+            ],
+            "useBuiltIns": true
           }
         ]
       ]

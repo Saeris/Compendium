@@ -1,5 +1,3 @@
 export function configure(config) {
-  config.globalResources(
-    './number-format'
-  );
+  config.globalResources(`./number-format`)
 }

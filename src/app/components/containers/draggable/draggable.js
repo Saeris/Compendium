@@ -1,10 +1,10 @@
-import {bindable, customElement, containerless} from 'aurelia-framework';
-import './draggable.scss';
+import "./draggable.scss"
 
-@customElement('draggable')
+@customElement(`draggable`)
 @containerless
 export class Draggable {
-  @bindable config = {
-    container: ''
+  @bindable
+  config = {
+    container: ``
   }
 }

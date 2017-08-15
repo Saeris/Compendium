@@ -1,11 +1,10 @@
-import {customElement, bindable} from 'aurelia-framework';
-import './filter-slider.scss';
+import "./filter-slider.scss"
 
-@customElement('filter-slider')
+@customElement(`filter-slider`)
 export class FilterSlider {
-  @bindable config = {};
-  selected = [];
-  currentSelection = [];
+  @bindable config = {}
+  selected = []
+  currentSelection = []
   /*  Filter-Slider:
    *
    *  - A Range slider with two handles, divided into steps
@@ -39,45 +38,45 @@ export class FilterSlider {
    *
    */
   attached() {
-    this.resetSlider();
-    this.generateSteps();
-    let handles = $(this.selection).find('.handle');
-    $(this.selection).on('mousedown', e => {
-      e.stopPropagation();
-      if(e.target.nodeName === 'BUTTON') {
-        this.startDrag(e);
+    this.resetSlider()
+    this.generateSteps()
+    //let handles = $(this.selection).find(`.handle`)
+    $(this.selection).on(`mousedown`, e => {
+      e.stopPropagation()
+      if (e.target.nodeName === `BUTTON`) {
+        this.startDrag(e)
       }
-    });
-    $(this.selection).on('touchstart', e => {
-      e.stopPropagation();
-      if(e.target.nodeName === 'BUTTON') {
-        this.startDrag(e);
+    })
+    $(this.selection).on(`touchstart`, e => {
+      e.stopPropagation()
+      if (e.target.nodeName === `BUTTON`) {
+        this.startDrag(e)
       }
-    });
-    $(this.steps).on('click', e => {
-      e.stopPropagation();
-      this.setPosition(e);
-    });
-    $(this.reset).on('click', e => {
-      this.resetSlider();
-    });
+    })
+    $(this.steps).on(`click`, e => {
+      e.stopPropagation()
+      this.setPosition(e)
+    })
+    $(this.reset).on(`click`, e => {
+      this.resetSlider()
+    })
   }
 
   setPosition(e) {
-    let value     = Number($(e.target).closest('button')[0].value),
-        minValue  = null,
-        maxValue  = null;
+    let value = Number($(e.target).closest(`button`)[0].value)
+    let minValue = null
+    let maxValue = null
     // If shift key was pressed, add to current selection, else set current selection
-    if(e.shiftKey) {
+    if (e.shiftKey) {
       /*  Pushing the value to currenSelection allows for setting min and max values
        *  regardless of how many values are in between and location of existing values
        */
-      this.currentSelection.push(value);
-      minValue = Math.min(...this.currentSelection);
-      maxValue = Math.max(...this.currentSelection) + 1;
+      this.currentSelection.push(value)
+      minValue = Math.min(...this.currentSelection)
+      maxValue = Math.max(...this.currentSelection) + 1
     } else {
-      minValue = value;
-      maxValue = value + 1;
+      minValue = value
+      maxValue = value + 1
     }
     /*  Get the value of the button that was clicked, convert it to a number from
      *  a string, divide it by the number of steps to get a percentage. Use that
@@ -85,150 +84,150 @@ export class FilterSlider {
      *  NOTE: Use jQuery's closest() method to solve for events thrown by children
      *  of the button element.
      */
-    let min   = ($(this.meter).width() / this.config.steps.length) * minValue;
-    let max   = ((maxValue / this.config.steps.length) * $(this.meter).width()) - min;
-    $(this.selection).css({'left': min});
-    $(this.selection).width(max);
+    let min = $(this.meter).width() / this.config.steps.length * minValue
+    let max = maxValue / this.config.steps.length * $(this.meter).width() - min
+    $(this.selection).css({ left: min })
+    $(this.selection).width(max)
     // Clear existing classes, then add selected class to the button(s)
-    this.currentSelection = this.getSelection();
-    this.updateClasses();
-    this.updateSelection(this.currentSelection);
+    this.currentSelection = this.getSelection()
+    this.updateClasses()
+    this.updateSelection(this.currentSelection)
   }
 
   getSelection() {
-    let min = this.getClosest(parseInt($(this.selection).css('left')));
-    let max = this.getClosest($(this.selection).width());
+    let min = this.getClosest(parseInt($(this.selection).css(`left`), 10))
+    let max = this.getClosest($(this.selection).width())
     /*  First determine the distance between two steps
      *  Then determine where the range starts and where it ends
      *  Reset the current selection, then use the start and end values to create
      *  a new selection array
      */
-    let distance  = $(this.meter).width() / this.config.steps.length;
-    let start     = min / distance,
-        end       = (max + min) / distance,
-        selection = [];
+    let distance = $(this.meter).width() / this.config.steps.length
+    let start = min / distance
+    let end = (max + min) / distance
+    let selection = []
     for (let i = start; i < end; i++) {
-      selection.push(i);
+      selection.push(i)
     }
-    return selection;
+    return selection
   }
 
   updateSelection(selections = []) {
     // Clear selection first
     for (let i = 0; i < this.config.steps.length; i++) {
-      this.selected[i] = false;
+      this.selected[i] = false
     }
     // Set new values
     for (let i = 0; i < selections.length; i++) {
-      this.selected[selections[i]] = true;
+      this.selected[selections[i]] = true
     }
   }
 
   updateClasses() {
-    let buttons = $(this.steps).find('button');
+    let buttons = $(this.steps).find(`button`)
     // Clear all buttons first
     buttons.each((index, button) => {
-      $(button).removeClass('selected');
-    });
+      $(button).removeClass(`selected`)
+    })
     // Then add selected class to the array of given elements
     for (let i = 0; i < this.currentSelection.length; i++) {
-      $(buttons[this.currentSelection[i]]).addClass('selected');
+      $(buttons[this.currentSelection[i]]).addClass(`selected`)
     }
   }
 
   resetSlider() {
     // Move handles back to default positions
-    $(this.selection).css({'left': 0});
-    $(this.selection).width(this.config.selected ? $(this.meter).width() : 0);
+    $(this.selection).css({ left: 0 })
+    $(this.selection).width(this.config.selected ? $(this.meter).width() : 0)
     // Reset selection arrays
-    this.currentSelection = this.getSelection();
-    this.updateSelection(this.currentSelection);
+    this.currentSelection = this.getSelection()
+    this.updateSelection(this.currentSelection)
     // Remove classes from buttons
-    this.updateClasses();
+    this.updateClasses()
   }
 
   startDrag(e) {
     // Prevent default to keep from highlighting text by click-dragging
-    e.preventDefault();
-    this.dragHandle = $(e.target).closest('button')[0].value;
-    $(e.target).closest('button').addClass('active');
+    e.preventDefault()
+    this.dragHandle = $(e.target).closest(`button`)[0].value
+    $(e.target).closest(`button`).addClass(`active`)
     // Use jQuery's proxy method to prevent duplicate events from firing
-    $(document).on('mousemove', $.proxy(this.drag, this));
-    $(document).on('touchmove', $.proxy(this.drag, this));
-    $(document).on('mouseup', $.proxy(this.endDrag, this));
-    $(document).on('touchend', $.proxy(this.endDrag, this));
+    $(document).on(`mousemove`, $.proxy(this.drag, this))
+    $(document).on(`touchmove`, $.proxy(this.drag, this))
+    $(document).on(`mouseup`, $.proxy(this.endDrag, this))
+    $(document).on(`touchend`, $.proxy(this.endDrag, this))
   }
 
   drag(e) {
-    e.preventDefault();
+    e.preventDefault()
     /*  Get handle that is being manipulated by comparing event target to references
      *  Calculate drag distance as a percentage of the meter width
      *  If new position is not greater or less than the position of the other handle, move handle
      */
-    let dragPerc      = this.clamp((e.pageX - $(this.meter).offset()['left']) / $(this.meter).width());
-    let width         = ($(this.meter).width() * dragPerc) - parseInt($(this.selection).css('left'));
-    let left          = ($(this.meter).width() * dragPerc);
-    let currentWidth  = $(this.selection).width() + parseInt($(this.selection).css('left'));
+    let dragPerc = this.clamp((e.pageX - $(this.meter).offset().left) / $(this.meter).width())
+    let width = $(this.meter).width() * dragPerc - parseInt($(this.selection).css(`left`), 10)
+    let left = $(this.meter).width() * dragPerc
+    let currentWidth = $(this.selection).width() + parseInt($(this.selection).css(`left`), 10)
 
-    if(Number(this.dragHandle)){
+    if (Number(this.dragHandle)) {
       // Prevent the Max handle from moving behind the Min handle
-      if(width != parseInt($(this.selection).css('left')) ) {
-        $(this.selection).width(width);
+      if (width !== parseInt($(this.selection).css(`left`), 10)) {
+        $(this.selection).width(width)
       }
     } else {
       /*  Prevent the Min handle from moving if the distance between both handles
        *  is less than the width of one step
        */
-      if(($(this.meter).width() / this.config.steps.length) <= $(this.selection).width()) {
-        $(this.selection).css({'left': left});
-        $(this.selection).width(currentWidth - left);
+      if ($(this.meter).width() / this.config.steps.length <= $(this.selection).width()) {
+        $(this.selection).css({ left })
+        $(this.selection).width(currentWidth - left)
       }
     }
   }
 
   endDrag(e) {
     // Convert current handle positions to the nearest step
-    let min = this.getClosest(parseInt($(this.selection).css('left')));
-    let max = this.getClosest($(this.selection).width());
+    let min = this.getClosest(parseInt($(this.selection).css(`left`), 10))
+    let max = this.getClosest($(this.selection).width())
     // Snap handles into position
-    if(Number(this.dragHandle)){
-      $(this.selection).width(max);
+    if (Number(this.dragHandle)) {
+      $(this.selection).width(max)
     } else {
-      $(this.selection).css({'left': min, 'width': max});
+      $(this.selection).css({ left: min, width: max })
     }
     // Update classes and selection
-    this.currentSelection = this.getSelection();
-    $(e.target).closest('button').removeClass('active');
-    this.updateClasses();
-    this.updateSelection(this.currentSelection);
+    this.currentSelection = this.getSelection()
+    $(e.target).closest(`button`).removeClass(`active`)
+    this.updateClasses()
+    this.updateSelection(this.currentSelection)
     // Unsubscribe from mouse events
-    $(document).off('mousemove', this.drag);
-    $(document).off('touchmove', this.drag);
-    $(document).off('mouseup', this.endDrag);
-    $(document).off('touchend', this.endDrag);
+    $(document).off(`mousemove`, this.drag)
+    $(document).off(`touchmove`, this.drag)
+    $(document).off(`mouseup`, this.endDrag)
+    $(document).off(`touchend`, this.endDrag)
   }
 
   clamp(value) {
-    return Math.max(0, Math.min(value, 1));
-  };
+    return Math.max(0, Math.min(value, 1))
+  }
 
   generateSteps() {
     /*  Generates a list of step positions from the current width of the container
      *  divided by the number of steps passed in the config plus one (because
      *  arrays start at 0). Should be run as needed to account for responsiveness.
      */
-    let stepPositions = [];
+    let stepPositions = []
     for (let i = 0; i < this.config.steps.length + 1; i++) {
-      let position = ($(this.meter).width() / this.config.steps.length) * i;
-      stepPositions.push(position);
+      let position = $(this.meter).width() / this.config.steps.length * i
+      stepPositions.push(position)
     }
-    return stepPositions;
+    return stepPositions
   }
 
   getClosest(position, stepPositions = this.generateSteps()) {
     /*  Compares the given position to a list of step positions and determines
      *  which the given number is closest to
      */
-    return stepPositions.reduce((prev, curr) => Math.abs(curr - position) < Math.abs(prev - position) ? curr : prev);
+    return stepPositions.reduce((prev, curr) => (Math.abs(curr - position) < Math.abs(prev - position) ? curr : prev))
   }
 }

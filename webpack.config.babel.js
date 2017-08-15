@@ -3,6 +3,7 @@
  * Take a look at the README here: https://github.com/easy-webpack/core
  **/
 import { generateConfig, stripMetadata } from '@easy-webpack/core'
+import webpack from 'webpack'
 import path from 'path'
 import envProd from '@easy-webpack/config-env-production'
 import envDev from '@easy-webpack/config-env-development'
@@ -18,54 +19,80 @@ import globalRegenerator from '@easy-webpack/config-global-regenerator'
 import generateIndexHtml from '@easy-webpack/config-generate-index-html'
 import commonChunksOptimize from '@easy-webpack/config-common-chunks-simple'
 import copyFiles from '@easy-webpack/config-copy-files'
-import uglify from '@easy-webpack/config-uglify'
+//import uglify from '@easy-webpack/config-uglify'
 import generateCoverage from '@easy-webpack/config-test-coverage-istanbul'
+import offline from '@easy-webpack/config-offline'
 
-process.env.BABEL_ENV = 'webpack'
-const ENV = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() || (process.env.NODE_ENV = 'development')
+process.env.BABEL_ENV = `webpack`
+const ENV = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() || (process.env.NODE_ENV = `development`)
 
 // basic configuration:
-const title = 'Compendium'
-const baseUrl = '/'
+const title = `Compendium`
+const baseUrl = `/`
 const rootDir = path.resolve()
-const srcDir = path.resolve('src')
-const outDir = path.resolve('dist')
+const srcDir = path.resolve(`src`)
+const outDir = path.resolve(`dist`)
 
 const coreBundles = {
   bootstrap: [
-    'aurelia-bootstrapper-webpack',
-    'aurelia-polyfills',
-    'aurelia-pal',
-    'aurelia-pal-browser',
-    'regenerator-runtime',
-    'bluebird'
+    `aurelia-bootstrapper-webpack`,
+    `aurelia-polyfills`,
+    `aurelia-pal`,
+    `aurelia-pal-browser`,
+    `regenerator-runtime`,
+    `bluebird`
   ],
   // these will be included in the 'aurelia' bundle (except for the above bootstrap packages)
   aurelia: [
-    'aurelia-bootstrapper-webpack',
-    'aurelia-binding',
-    'aurelia-dependency-injection',
-    'aurelia-event-aggregator',
-    'aurelia-framework',
-    'aurelia-history',
-    'aurelia-history-browser',
-    'aurelia-loader',
-    'aurelia-loader-webpack',
-    'aurelia-logging',
-    'aurelia-logging-console',
-    'aurelia-metadata',
-    'aurelia-pal',
-    'aurelia-pal-browser',
-    'aurelia-path',
-    'aurelia-polyfills',
-    'aurelia-route-recognizer',
-    'aurelia-router',
-    'aurelia-task-queue',
-    'aurelia-templating',
-    'aurelia-templating-binding',
-    'aurelia-templating-router',
-    'aurelia-templating-resources'
+    `aurelia-bootstrapper-webpack`,
+    `aurelia-binding`,
+    `aurelia-dependency-injection`,
+    `aurelia-event-aggregator`,
+    `aurelia-framework`,
+    `aurelia-history`,
+    `aurelia-history-browser`,
+    `aurelia-loader`,
+    `aurelia-loader-webpack`,
+    `aurelia-logging`,
+    `aurelia-logging-console`,
+    `aurelia-metadata`,
+    `aurelia-pal`,
+    `aurelia-pal-browser`,
+    `aurelia-path`,
+    `aurelia-polyfills`,
+    `aurelia-route-recognizer`,
+    `aurelia-router`,
+    `aurelia-task-queue`,
+    `aurelia-templating`,
+    `aurelia-templating-binding`,
+    `aurelia-templating-router`,
+    `aurelia-templating-resources`
+  ],
+  vendor: [
+    `apollo-client`,
+    `moment`,
+    `numeral`,
+    `keyrune`,
+    `mana-font`,
+    `redux`,
+    `redux-logger`,
+    `redux-observable`,
+    `snapsvg-cjs`
   ]
+}
+
+const offlineConfig = {
+  caches: {
+    main: [`:rest:`],
+    additional: [`:externals:`]
+  },
+  ServiceWorker: {
+    events: true
+  },
+  AppCache: {
+    caches: [`main`, `additional`]
+  },
+  safeToUseOptionalCaches: true
 }
 
 /**
@@ -74,12 +101,21 @@ const coreBundles = {
 let config = generateConfig(
   {
     entry: {
-      'app': ['./src/main' /* this is filled by the aurelia-webpack-plugin */],
+      'app': [`./src/main` /* this is filled by the aurelia-webpack-plugin */],
       'aurelia-bootstrap': coreBundles.bootstrap,
-      'aurelia': coreBundles.aurelia.filter(pkg => coreBundles.bootstrap.indexOf(pkg) === -1)
+      'aurelia': coreBundles.aurelia.filter(pkg => coreBundles.bootstrap.indexOf(pkg) === -1),
+      'vendor': coreBundles.vendor.filter(pkg => coreBundles.bootstrap.indexOf(pkg) === -1)
     },
     output: {
       path: outDir
+    },
+    stats: {
+      colors: true,
+      reasons: false,
+      chunks: false
+    },
+    performance: {
+      hints: false
     }
   },
 
@@ -91,40 +127,87 @@ let config = generateConfig(
    * For Webpack docs, see: https://webpack.js.org/configuration/
    */
 
-  ENV === 'test' || ENV === 'development' ?
-    envDev(ENV !== 'test' ? {} : {devtool: 'inline-source-map'}) :
+  ENV === `test` || ENV === `development` ?
+    envDev(ENV !== `test` ? {} : {devtool: `inline-source-map`}) :
     envProd({ /* devtool: '...' */ }),
 
   aurelia({root: rootDir, src: srcDir, title: title, baseUrl: baseUrl}),
 
   babel(),
   html(),
-  sass({ allChunks: true, sourceMap: false, additionalLoaders: ['postcss-loader'] }),
-  css({ filename: 'styles.css', allChunks: true, sourceMap: false, additionalLoaders: ['postcss-loader'] }),
+  sass({ filename: `app.css`, allChunks: true, sourceMap: false, additionalLoaders: [`postcss-loader`] }),
+  css({ filename: `styles.css`, allChunks: true, sourceMap: false, additionalLoaders: [`postcss-loader`] }),
   fontAndImages(),
   globalBluebird(),
   globalJquery(),
   globalRegenerator(),
-  generateIndexHtml({minify: ENV === 'production'}),
+  generateIndexHtml({minify: ENV === `production`}),
 
-  ...(ENV === 'production' || ENV === 'development' ? [
-    commonChunksOptimize({appChunkName: 'app', firstChunk: 'aurelia-bootstrap'}),
-    copyFiles({patterns: [{ from: 'favicon.ico', to: 'favicon.ico' }]})
+  ...(ENV === `production` || ENV === `development` ? [
+    commonChunksOptimize({appChunkName: `app`, firstChunk: `aurelia-bootstrap`}),
+    //copyFiles({patterns: [{ from: `favicon.ico`, to: `favicon.ico` }]}),
+    copyFiles({patterns: [
+      { from: `_redirects` },
+      { context: `src/img`, from: `**/*`, to: `img` }
+    ]})
   ] : [
     /* ENV === 'test' */
     generateCoverage({ options: { 'force-sourcemap': true, esModules: true }})
   ]),
 
-  ENV === 'production' ?
-    uglify({debug: false, mangle: { except: ['cb', '__webpack_require__'] }}) : {},
+  ENV === `production` ?
+    //uglify({debug: false, mangle: { except: [`cb`, `__webpack_require__`] }}) : {},
+  {
+    plugins: [
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false,
+          screw_ie8: true,
+          conditionals: true,
+          unused: true,
+          comparisons: true,
+          sequences: true,
+          dead_code: true,
+          evaluate: true,
+          join_vars: true,
+          if_return: true
+        },
+        output: {
+          comments: false
+        }
+      })
+    ]} : {},
+
+  ENV === `development` ? { performance: { hints: false } } : {},
 
   {
+    module: {
+      rules: [
+        { test: /\.(graphql|gql)$/, exclude: /node_modules/, loader: `graphql-tag/loader` },
+        { test: /\.ai$/, loader: `ignore-loader` },
+        { test: /\src\/images$/, loader: `ignore-loader` }
+      ]
+    },
     resolve: {
       alias: {
-        'crossfilter': 'crossfilter2'
+        'masonry': `masonry-layout`,
+        'isotope': `isotope-layout`
       }
-    }
-  }
+    },
+    plugins: [
+      new webpack.ProvidePlugin({
+        HttpClient: [`aurelia-fetch-client`, `HttpClient`],
+        bindable: [`aurelia-framework`, `bindable`],
+        customElement: [`aurelia-framework`, `customElement`],
+        containerless: [`aurelia-framework`, `containerless`],
+        LogManager: [`aurelia-framework`, `LogManager`],
+        inject: [`aurelia-framework`, `inject`],
+        EventAggregator: [`aurelia-event-aggregator`, `EventAggregator`]
+      })
+    ]
+  },
+
+  ENV === `production` ? offline({ options: offlineConfig }) : {}
 )
 
 module.exports = stripMetadata(config)

@@ -1,10 +1,10 @@
-import {bindable, customElement, containerless} from 'aurelia-framework';
-import './app-header.scss';
+import "./app-header.scss"
 
-@customElement('app-header')
+@customElement(`app-header`)
 @containerless
 export class AppHeader {
-  @bindable router;
+  @bindable router
   constructor() {
+    this.log = LogManager.getLogger(`Compendium/${this.constructor.name}`)
   }
 }

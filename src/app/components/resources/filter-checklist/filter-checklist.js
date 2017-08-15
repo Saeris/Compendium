@@ -20,6 +20,10 @@ export class FilterChecklist {
    *  property, and must be explicitly called to get it's current value, such as
    *  inside a form submission function.
    */
+  constructor() {
+    this.log = LogManager.getLogger(`Compendium/${this.constructor.name}`)
+  }
+
   attached() {
     this.reset()
   }

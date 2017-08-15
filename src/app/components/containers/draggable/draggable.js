@@ -1,10 +1,12 @@
-import "./draggable.scss"
+import './draggable.scss'
 
 @customElement(`draggable`)
 @containerless
 export class Draggable {
-  @bindable
-  config = {
+  @bindable config = {
     container: ``
+  }
+  constructor() {
+    this.log = LogManager.getLogger(`Compendium/${this.constructor.name}`)
   }
 }

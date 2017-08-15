@@ -1,7 +1,3 @@
-/**
- * To learn more about how to use Easy Webpack
- * Take a look at the README here: https://github.com/easy-webpack/core
- **/
 import { generateConfig, stripMetadata } from '@easy-webpack/core'
 import webpack from 'webpack'
 import path from 'path'
@@ -22,6 +18,9 @@ import copyFiles from '@easy-webpack/config-copy-files'
 //import uglify from '@easy-webpack/config-uglify'
 import generateCoverage from '@easy-webpack/config-test-coverage-istanbul'
 import offline from '@easy-webpack/config-offline'
+
+process.env.BABEL_ENV = `webpack`
+const ENV = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() || (process.env.NODE_ENV = `development`)
 
 process.env.BABEL_ENV = `webpack`
 const ENV = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() || (process.env.NODE_ENV = `development`)

@@ -1,5 +1,7 @@
 # MtG Compendium
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Saeris/Compendium.svg)](https://greenkeeper.io/)
+
 ## Setting up
 
 Before you start, make sure you have a working [NodeJS](http://nodejs.org/) environment,
